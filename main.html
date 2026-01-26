@@ -5,17 +5,33 @@
     <title>🚗 ParkShare</title>
 </head>
 <body>
-    <script type="module" src="home.js"></script>
     <h3>Sign-Up</h3>
-    <form id="login-form">  
+    <form id="sign-up">  
         <label for = "email">Email</label>
         <input type="email" id="email" required placeholder="Enter Email">
+        <br>
+        <label for = "username">username</label>
+        <input type="text" id="username" required placeholder="Enter Username">
         <br>
         <label for="password">Password</label>
         <input type="password" id="password" required placeholder="Enter Password">
         <br>
-        <input type="submit">
+        <button type="submit">Submit</button>
     </form>
+    <br>
+
+    <form id="sign-in">  
+        <label for = "email">Email</label>
+        <input type="email" id="signIn-email" required placeholder="Enter Email">
+        <br>
+        <label for="password">Password</label>
+        <input type="password" id="signIn-password" required placeholder="Enter Password">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+
+    <button type="submit" id="signout-btn">Log Out</button>
     
     <script type="module" src="auth.js"></script>
     
