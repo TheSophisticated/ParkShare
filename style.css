@@ -1,0 +1,168 @@
+*{
+    padding : 0;
+    margin :0;
+    box-sizing: border-box;
+}
+
+
+
+
+.section_container{
+    max-width: 1200px;
+    margin :auto;
+    padding : 5rem 1rem;
+}
+
+.section_header{
+    font-size: 2rem;
+    font-weight: 600;
+    color : black;
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+img{
+    width: 50px;
+    height: 50px;
+}
+
+body{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+}
+
+nav{
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem 1rem;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.nav_logo{
+    font-size: 2rem;
+    font-weight: 600;
+    color :purple;
+}
+
+.nav_links{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap :2rem;
+
+}
+
+.link a{
+    font-weight: 500;
+    color: gray;
+    transition: 2;
+}
+
+.link a:hover{
+    color : lightskyblue;
+}
+
+
+.header_container{
+    padding : 1rem 1rem 5rem 1rem;
+}
+
+.header_image_container{
+    position : relative;
+    min-height: 600px;
+    background-image: linear-gradient(
+        to right,
+        rgba(44,56,85,0.9),
+        rgba(100,125,187,0.1)
+    ),
+    url("bg.png");
+
+    background-position: center center;
+    background-size: cover;
+    border-radius: 2rem;
+}
+
+.header_content h1{
+    padding-top: 150px;
+    padding-left: 40px;
+    margin-bottom : 1rem;
+    font-size: 5rem;
+    line-height: 4rem;
+    font-weight: 600;
+    color: white;
+}
+
+.header_content p{
+    color: white;
+    padding-top: 10px;
+    padding-left: 40px;
+}
+
+.booking_container{
+    position: absolute;
+    bottom :-5rem;
+    left:50%;
+    transform: translate(-50%);
+    width: calc(100% - 6rem);
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem 2rem;
+    background-color: rgba(225, 225, 225, 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 5px 5px 30px rgba(0,0,0,0.1);
+    border-radius: 2rem;
+}
+
+.booking_container form{
+    width: 100%;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1rem;
+}
+
+.booking_container .input_group{
+    width: 100%;
+    position:relative;
+}
+
+.input_group label{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 1.2rem ;
+    font-weight: 500 ;
+    color: black;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.booking_container input{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid lightskyblue;
+    color : black;
+}
+
+.booking_container input:focus ~ label{
+    font-size: 0.8rem;
+    top: 0;
+
+}
+
+.booking_containter .gorm_group p{
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color : white;
+}
