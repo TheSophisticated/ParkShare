@@ -91,10 +91,10 @@ nav{
     padding-top: 150px;
     padding-left: 40px;
     margin-bottom : 1rem;
-    font-size: 5rem;
+    font-size: 4rem;
     line-height: 4rem;
     font-weight: 600;
-    color: white;
+    color: white; 
 }
 
 .header_content p{
