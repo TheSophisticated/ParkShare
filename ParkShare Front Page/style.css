@@ -1,0 +1,322 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #F2F3F2;
+}
+
+.first_page{
+    border-radius: 32px;
+    background-color: white;
+    padding-bottom: 50px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    padding-top: 30px;
+}
+
+.booking_page{
+    margin-left: 3.5%;
+    margin-right: 3.5%;
+    margin-top: 50px;
+
+    border-radius: 32px;
+
+    background-color: white;
+}
+
+.Socials{
+    display : grid;
+    grid-template-columns: 1fr 120px 90px 1fr;
+
+    background-color: black;
+
+    margin-top: 50px;
+
+}
+
+.options{
+    display : grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    margin-left: 3.5%;
+    margin-right: 3.5%;
+    margin-top: 50px;
+
+}
+
+.heading{
+    position: sticky;
+    top : 0;
+    /* width: 100%; */
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+
+
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
+
+    background-color: white;
+}
+
+.logo{
+    font-size: 1.7rem;
+    font-weight: 900;
+    color :purple;
+    font-family: "Varela Round", sans-serif;
+    text-align: left;
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+.booking_renting{
+    text-align: center;
+    margin-top: 30px ;
+}
+
+.booking_renting a{
+    text-decoration: none;
+    color: black;
+    font-family: "Varela Round", sans-serif;
+    font-weight: 100;
+    font-size: 1.4rem;
+    margin-right: 30px;
+    margin-top: 30px;
+    vertical-align: top;
+}
+
+.image_br{
+    margin-top: 1px;
+    height: 1.5rem;
+    vertical-align: top;
+    margin-right: 10px;
+    align-items: center;
+}
+.login{
+    text-align: right;
+    margin-top: 30px ;
+}
+
+.login a{
+    text-decoration: none;
+    color: black;
+    font-family: "Varela Round", sans-serif;
+    font-weight: 100;
+    font-size: 1.4rem;
+    margin-right: 30px;
+    margin-top: 30px;
+    vertical-align: top;
+    margin-right: 50px;
+}
+
+.cool{
+    align-items: center;
+}
+
+.bg{
+    display: inline;
+    width: 100%;
+    
+    border-radius: 40px;
+}
+
+
+.input_location{
+    background-color: #F2F3F2;
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: white;
+    width: 10rem;
+    height: 2.8rem;
+    text-align: center;
+
+    font-family: "Varela Round", sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+
+    margin-left: 5%;
+    margin-top: 50px;
+}
+
+.qoute{
+    margin-left: 5%;
+    margin-top: 30px;
+
+    font-family: "Bitcount Single", system-ui;
+    font-weight: 500;
+    font-style: normal;
+
+    letter-spacing: -2px;
+
+    font-size: 70px;
+}
+
+.working{
+    margin-left: 5%;
+    margin-top: 15px;
+
+    color : gray;
+
+    font-family: "Overpass", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+
+    font-size: 35px;
+}
+
+.location_icon{
+    width: 50px;
+    height: auto;
+    vertical-align: top;
+    margin-top: 50px;
+}
+
+.book_parking{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.book_text{
+    text-align: left;
+
+    color: #3B453F;
+    font-family: "Varela Round", sans-serif;
+    font-weight: 100;
+    font-size: 1.4rem;
+
+    margin-top: 40px;
+    margin-left: 40px;
+
+    vertical-align: top;
+}
+
+.book_parking a{
+    margin-top: 40px;
+    margin-right: 40px;
+
+    text-decoration: none;
+
+    text-align: right;
+
+    color: #3B453F;
+    font-family: "Varela Round", sans-serif;
+    font-weight: 100;
+    font-size: 1rem;
+    letter-spacing: -1px;
+}
+
+
+
+.parking{
+    border: 1px solid #E3E8E6;
+    
+    border-radius: 10px;
+    margin-right: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+
+}
+
+
+.thumbnail{
+    margin-left: 2.5%;
+    margin-top: 10px;
+
+    width: 95%;
+    height: 200px;
+}
+
+.thumbnail img{
+    width: 95%;
+    height: 200px;
+    border-radius: 10px;
+}
+
+.title{
+    margin-top: 20px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+
+
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+
+
+}
+
+.title_link{
+    margin-top: 20px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.title_link a{
+    text-decoration: none;
+
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+
+    color: black;
+    width: 90%;
+}
+
+.owner_profile{
+    margin-top: 20px;
+    margin-left: 2.5%;
+
+}
+
+.owner_profile a{
+    text-decoration: none;
+
+    font-family: "Arimo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+    color: black;
+    width: 90%;
+}
+
+.yt{
+    width: auto;
+    height:80px;
+    vertical-align: top;
+    float : right;
+
+}
+
+.ig{
+    width: auto;
+    height:80px;
+    vertical-align: top;
+    float : middle;
+}
+
+.fb{
+    width: auto;
+    height:60px;
+    vertical-align: top;
+    float : middle;
+
+}
+
+.ld{
+    width: auto;
+    height:80px;
+    vertical-align: top;
+    float : left;
+}
