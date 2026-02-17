@@ -117,6 +117,11 @@
         .upload-box input {
             display: none;
         }
+
+        .upload-box img{
+            width: 25%;
+            border-radius: 15px;
+        }
     </style>
 </head>
 
@@ -126,20 +131,20 @@
     <h1>Park Share</h1>
     <p>Please fill out the following requirements to list your parking space</p>
 
-    <form>
+    <form id="parking-form">
 
         <!-- Owner Details -->
         <div class="section">
             <h3>Owner Details</h3>
 
-            <label >Owner Name<span class="required">*</span></label>
-            <input type="text" placeholder="Full name" required>
+            <label >Owner Name<span class="">*</span></label>
+            <input type="text" placeholder="Full name" >
 
             <label>Phone Number</label>
-            <input type="tel" placeholder="Phone number" required>
+            <input type="tel" placeholder="Phone number" >
 
             <label>Email</label>
-            <input type="email" placeholder="abc123@gmail.com" required>
+            <input type="email" placeholder="abc123@gmail.com" >
         </div>
 
         <!-- Address Details -->
@@ -147,16 +152,16 @@
             <h3>Address Details</h3>
 
             <label>Address Line 1</label>
-            <input type="text" placeholder="Street / Area" required>
+            <input type="text" placeholder="Street / Area" >
 
             <label>Address Line 2</label>
             <input type="text" placeholder="Apartment, Landmark (optional)">
 
             <label>City</label>
-            <input type="text" placeholder="City" required>
+            <input type="text" placeholder="City" >
 
             <label>Pincode</label>
-            <input type="text" placeholder="Pincode" required>
+            <input type="text" placeholder="Pincode" >
         </div>
 
         <!-- Parking Details -->
@@ -164,7 +169,7 @@
             <h3>Parking Details</h3>
 
             <label>Vehicle Type</label>
-            <select required>
+            <select >
                 <option value="">Select Parking Space</option>
                 <option>4 Wheeler</option>
                 <option>2 Wheeler</option>
@@ -172,12 +177,12 @@
             </select>
 
             <label>Price (per day)</label>
-            <input type="number" placeholder="Enter price" required>
+            <input type="number" placeholder="Enter price" >
 
             <label>Availability *</label>
             <div class="radio-group">
                 <label>
-                    <input type="radio" name="availability" required>
+                    <input type="radio" name="availability" >
                     Daily
                 </label>
 
@@ -200,13 +205,15 @@
             <label class="upload-box">
                 <span class="upload-text">Click to upload image</span>
                 <span class="upload-subtext">PNG, JPG up to 5MB</span>
-                <input type="file" accept="image/*" multiple required>
+                <input id="img-file" type="file" accept="image/*" multiple >
             </label>
         </div>
 
-        <button type="submit">Submit</button>
+        <input type="submit" value="Submit" class="submit-btn">Submit</input>
     </form>
 </div>
+
+<script type="module" src="AddParking.js"></script>
 
 </body>
 </html>
