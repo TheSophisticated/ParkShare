@@ -4,7 +4,7 @@ const supabase = createClient(
   'https://wbtzkgpkcigqaecdjlbn.supabase.co',
   'sb_publishable_SSZqqiwFwnPispVtOBqbpg_gr01dRlX'
 )
-
+  
 //Fetches the Sign-Up form from the DOM
 const signupForm = document.getElementById("sign-up");
 signupForm.addEventListener('submit', signup);

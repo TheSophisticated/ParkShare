@@ -15,6 +15,10 @@ async function addParkingSpace(e){
     const fileInput = document.getElementById("img-file");
     const parkingImage = fileInput.files[0];
 
+    const { error } = await supabase
+    .from('parking_spaces')
+    .insert({ id: 1, name: 'Mordor' })
+
 
     if(parkingImage){
         const extension = parkingImage.name.split('.').pop();
