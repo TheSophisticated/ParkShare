@@ -5,8 +5,6 @@ const supabase = createClient(
   'sb_publishable_SSZqqiwFwnPispVtOBqbpg_gr01dRlX'
 )
 
-//NOTE: LOCATION FEATURE IN PROGRESS
-
 const map = L.map('map').setView([20.5937, 78.9629], 5);
 
 L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
@@ -20,18 +18,19 @@ const spaceForm = document.getElementById("parking-form");
 spaceForm.addEventListener('submit', addParkingSpace);
 
 const locationBtn = document.getElementById('find-location');
-locationBtn.addEventListener('click', fetchLocation());
+locationBtn.addEventListener('click', fetchLocation);
 
 async function fetchLocation(e){
     const addr1 = document.getElementById('street').value;
     const addr2 = document.getElementById('appt').value;
     const city = document.getElementById('city').value;
     const pincode = document.getElementById('pincode').value;
+    
 
     const parts = [addr1, addr2, city, pincode, "India"];
     const address = parts.join(', ');
 
-    const geoSearchUrl = `https://geocode.maps.co/search?q=${encodeURIComponent(address)}&api_key=699621d3b4b73122333572wtmd74261`;
+    const geoSearchUrl = `https://us1.locationiq.com/v1/search?key=pk.f1d495d5ddccc8734a3dcf45b1b5db4b&q=${address}&format=json&`;
     console.log(geoSearchUrl);
 
     const geoFetch = await fetch(geoSearchUrl);
@@ -50,16 +49,18 @@ async function fetchLocation(e){
         // 3. Add a new marker at the spot
         marker = L.marker([lat, lon], { draggable: true }).addTo(map);
 
+        document.getElementById('lat-input').value = lat;
+        document.getElementById('lon-input').value = lon;
+
         // 4. Update coordinates if the user drags the pin!
         marker.on('dragend', function(event) {
             const position = marker.getLatLng();
             console.log("User refined location to:", position.lat, position.lng);
-            // You can save these new coordinates to your hidden form inputs
+            document.getElementById('lat-input').value = position.lat;
+            document.getElementById('lon-input').value = position.lng;
         });
 
     }
-
-    
 }
 
 
@@ -70,6 +71,10 @@ async function addParkingSpace(e){
     const renterName = document.getElementById('renter-name').value;
     const vehicleType = document.getElementById('vehicle-type').value;
     const rate = document.getElementById('rate').value;
+
+    const lat = document.getElementById('lat-input').value;
+    const lon = document.getElementById('lon-input').value;
+    const pointLoc = `POINT(${lon} ${lat})`;
 
 
     //Get Uploaded Image
@@ -92,7 +97,12 @@ async function addParkingSpace(e){
 
         const { error } = await supabase
         .from('parking_spaces')
-        .insert({renter_name: renterName, vehicle_type: vehicleType, rate: rate, image: publicUrl});
+        .insert({renter_name: renterName, 
+            vehicle_type: vehicleType, 
+            rate: rate, 
+            image: publicUrl,
+            location: pointLoc
+        });
 
 
         if(error){
