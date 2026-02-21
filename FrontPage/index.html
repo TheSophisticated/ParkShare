@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
     <title>ParkShare</title>
 
     <link rel="icon" href = "logo." type = "image/x-icon">
@@ -16,7 +15,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+    <div id="search-overlay" class="search-overlay hidden">
+        <div id="search-region" class="search-region">
+            <input type="text" placeholder="Location" id="auto-search-input" class = "input-location-bar">
+            <div id="results-list"></div>
+        </div>
+    </div>
     <!-- HEADING OF PARKSHARE -->
     <div class = "heading">
         <!-- <img src="logo.png" class="logo"> -->
@@ -39,14 +43,13 @@
     <div class ="first_page">
         <!-- <div class="location"><input type="text" placeholder="Location"></div> -->
 
-        <div class = "location"> 
+        <div class = "location" id="search-bar"> 
                 <input type="text" placeholder="Location" class = "input_location">
                 <img src="images/location_icon.png" class = "location_icon">
 
                 <h1 class = "qoute">Where Parking Meets Convenience </h1>
                 <p class = "working">One seamless platform to book Parking and Rent your Space </p>
         </div>
-
         
         <div class="cool"><img src="images/bg.png" class= "bg"></div>
     </div>
@@ -115,5 +118,6 @@
             <a href = "#"><img src = "images/linkedin.jpg" class = "ld"></a>
 
         </div>
+    <script type="module" src="search.js"></script>
 </body>
 </html>

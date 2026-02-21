@@ -26,7 +26,6 @@ async function fetchLocation(e){
     const city = document.getElementById('city').value;
     const pincode = document.getElementById('pincode').value;
     
-
     const parts = [addr1, addr2, city, pincode, "India"];
     const address = parts.join(', ');
 

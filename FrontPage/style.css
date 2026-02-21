@@ -398,3 +398,90 @@ body{
 .ld:hover{
     height: 90px;
 }
+
+.hidden{
+    display: none !important;
+}
+
+.activate{
+    animation: scale-up 0.7s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.deactivate{
+    animation: close 0.7s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+@keyframes scale-up{
+    0%{
+        transform: scale(0%, 0%);
+    }
+    100%{
+        transform: scale(100%, 100%);
+    }
+}
+
+@keyframes close{
+    0%{
+        transform: scale(100%, 100%);
+    }
+    100%{
+        transform: scale(0%, 0%);
+    }
+}
+
+.search-overlay{
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-region{
+    border-radius: 15px;
+    width: 60%;
+    height: 70%;
+    background-color: white;
+}
+
+.input-location-bar{
+    background-color: #F2F3F2;
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: white;
+    width: 50rem;
+    height: 2.8rem;
+    text-align: center;
+
+    font-family: "Varela Round", sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+
+    margin-left: 7%;
+    margin-top: 50px;
+}
+
+#results-list {
+    background: white;
+    border-radius: 0 0 8px 8px; 
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.autocomplete-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.autocomplete-item:hover {
+    background-color: #f8f9fa;
+}
