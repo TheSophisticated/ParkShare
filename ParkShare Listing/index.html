@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Spaces</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #f0f2f5; 
+            margin: 0; 
+            padding: 20px; 
+            color: #1c1e21; 
+        }
+        header { 
+            text-align: center; 
+            padding: 50px 0; 
+            background: #ffffff; 
+            border-radius: 15px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            margin-bottom: 30px; 
+        }
+        h1 { 
+            margin: 0; 
+            color: purple; 
+            font-size: 2.5rem; 
+        }
+        
+        #listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 200px; object-fit: cover; background-color: #eee; }
+        .card-content { padding: 20px; }
+        .tag { background: #ecfdf5; color: #059669; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+        .renter { font-size: 1.1rem; margin: 10px 0 5px 0; font-weight: 600; }
+        .price { font-size: 1.4rem; color:purple; font-weight: 800; margin-top: 15px; }
+        .loading { text-align: center; font-size: 1.2rem; grid-column: 1 / -1; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Parking Spaces</h1>
+    </header>
+
+    <div id="listings">
+        <p class="loading">Fetching parking spaces...</p>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://wbtzkgpkcigqaecdjlbn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8';
+        
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function loadSpaces() {
+            const listDiv = document.getElementById('listings');
+
+            const { data, error } = await _supabase.from('parking_spaces').select('*');
+
+            if (error) {
+                console.error("Error:", error);
+                listDiv.innerHTML = `<p>Error connecting: ${error.message}</p>`;
+                return;
+            }
+
+            listDiv.innerHTML = '';
+
+            data.forEach(item => {
+                const card = `
+                    <div class="card">
+                        <img src="${item.image}" alt="Parking Space">
+                        <div class="card-content">
+                            <p class="tag">${item.vehicle_type}</p>
+                            <h3 class="renter">${item.renter_name}'s Space</h3>
+                            <p class="price">₹${item.rate}<span style="font-size: 0.8rem; font-weight: normal; color: #666;">/hour</span></p>
+                        </div>
+                    </div>
+                `;
+                listDiv.innerHTML += card;
+            });
+        }
+
+        loadSpaces();
+    </script>
+</body>
+</html>
