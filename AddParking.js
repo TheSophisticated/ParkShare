@@ -108,6 +108,7 @@ async function addParkingSpace(e){
             console.log(error);
         }
         else{
+            alert("Space Listed Successfull!");
             console.log("Image Uploaded!");
         }
     }
