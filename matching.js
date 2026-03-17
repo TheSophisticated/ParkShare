@@ -39,14 +39,12 @@ async function init() {
         const maxPrice = Math.max(...data.map(s => s.rate));
         
         const rankedData = data.map(item => {
-            // Price is 60% of score, Distance is 40%
             const priceScore = 1 - (item.rate / (maxPrice + 1));
             const distScore = 1 - (item.distance_meters / 5000);
             const totalScore = Math.round(((priceScore * 0.6) + (distScore * 0.4)) * 100);
             return { ...item, matchScore: totalScore };
         });
 
-        // Sort by highest match score
         rankedData.sort((a, b) => b.matchScore - a.matchScore);
 
         // 5. Render to the page
