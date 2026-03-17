@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkShare | Your Best Matches</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --primary-purple: purple;
+            --light-purple: #f3e8ff;
+            --bg-gray: #F2F3F2;
+            --text-dark: #2d3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Overpass', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+        }
+
+        .header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-purple);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .results-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 50px 20px;
+        }
+
+        .search-meta {
+            margin-bottom: 30px;
+        }
+
+        .search-meta h1 {
+            font-size: 1.8rem;
+            color: #1a202c;
+        }
+
+        .search-meta span#location-name {
+            color: var(--primary-purple);
+        }
+
+        .rank-card {
+            display: flex;
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(107, 33, 168, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            align-items: center;
+            border: 1px solid rgba(107, 33, 168, 0.05);
+        }
+
+        .rank-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(107, 33, 168, 0.1);
+        }
+
+        .rank-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--light-purple);
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .space-img {
+            width: 240px;
+            height: 160px;
+            border-radius: 18px;
+            object-fit: cover;
+        }
+
+        .info-section {
+            flex-grow: 1;
+            padding: 0 20px;
+        }
+
+        .match-badge {
+            background: var(--light-purple);
+            color: var(--primary-purple);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .renter-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .distance-tag {
+            color: #718096;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-section {
+            text-align: right;
+            min-width: 150px;
+            border-left: 1px solid #edf2f7;
+            padding-left: 25px;
+        }
+
+        .price-val {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-purple);
+        }
+
+        .price-unit {
+            font-size: 0.85rem;
+            color: #a0aec0;
+            margin-bottom: 15px;
+        }
+
+        .book-btn {
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .book-btn:hover {
+            background: purple;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 100px 0;
+            color: var(--primary-purple);
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="logo">ParkShare</a>
+    </header>
+
+    <div class="results-page">
+        <div class="search-meta">
+            <h1>Top Matches near <span id="location-name">your search</span></h1>
+        </div>
+
+        <div id="results-list">
+            <div class="loading-state">Calculating the best values for you...</div>
+        </div>
+    </div>
+
+    <script type="module" src="matching.js"></script>
+</body>
+</html>

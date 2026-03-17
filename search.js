@@ -49,9 +49,16 @@ async function showResults(data){
         container.className = 'autocomplete-item';
         container.textContent = place.display_name;
 
-        container.addEventListener('click', function(){
+        container.addEventListener('click', function(e){
+            e.preventDefault();
+
             mainSearch.value = place.display_name;
-            resultRegion.innerHTML = '';
+            const lat = place.lat;
+            const lon = place.lon
+            const address = encodeURIComponent(place.display_name);
+
+            window.location.href = `results.html?lat=${lat}&lon=${lon}&addr=${address}`;  
+            // resultRegion.innerHTML = '';
         });
 
         resultRegion.appendChild(container);
