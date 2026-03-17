@@ -559,5 +559,22 @@ faqItems.forEach(item => {
         </div>  
     <script type="module" src="search.js"></script>
     <script type="module" src="auth.js"></script>
+    <script>
+        async function updateLoginUI() {
+  const { data: { user } } = await _supabase.auth.getUser();
+
+  const loginLink = document.getElementById("login-link");
+
+  if (user) {
+    loginLink.innerText = user.email; // or name later
+    loginLink.href = "userdashboard.html"; // 🔥 THIS LINE
+  } else {
+    loginLink.innerText = "Login/Signup";
+    loginLink.href = "login.html";
+  }
+}
+
+updateLoginUI();//
+    </script>
 </body>
 </html>

@@ -39,7 +39,9 @@
 
         <main class="flex-1 overflow-y-auto">
             <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
-                <h1 class="text-xl font-semibold text-gray-800">Welcome back, User!</h1>
+                <h1 id="welcomeText" class="text-xl font-semibold text-gray-800">
+    Welcome back!
+</h1>
                 <div class="flex items-center space-x-4">
                     <span class="text-sm text-gray-500">Member since 2026</span>
                     
@@ -136,6 +138,20 @@ async function loadBookings() {
 }
 
 loadBookings();
+
+function loadUserHeader(){
+
+  let name = localStorage.getItem("username");
+
+  if(!name){
+    name = "User"; // fallback
+  }
+
+  document.getElementById("welcomeText").innerText =
+    "Welcome back, " + name;
+}
+
+loadUserHeader();
 
 async function loadWallet(){
 
