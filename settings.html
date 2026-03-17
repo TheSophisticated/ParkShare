@@ -38,9 +38,9 @@
         </nav>
 
         <div class="p-4 border-t border-indigo-600">
-            <button class="w-full text-left py-2 px-4 hover:text-red-300">
-                <i class="fas fa-sign-out-alt mr-2"></i> Logout
-            </button>
+<button onclick="logout()" class="w-full text-left py-2 px-4 hover:text-red-300">
+    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+</button>
         </div>
     </aside>
 
@@ -94,57 +94,66 @@
 </div>
 
 <script>
-(function(){
+(function() {
+    // 1. Setup constants
+    const SUPABASE_URL = "https://wbtzkgpkcigqaecdjlbn.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8";
 
-const SUPABASE_URL = "https://wbtzkgpkcigqaecdjlbn.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8";
+    // 2. Initialize the client
+    const supaClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    console.log("Settings script initialized");
 
-const supaClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // 3. Define the Logout function (attached to window so the button can see it)
+    window.logout = async function() {
+        console.log("Logging out...");
+        await supaClient.auth.signOut();
+        localStorage.clear();
+        window.location.href = "login.html";
+    };
 
-console.log("SCRIPT RUNNING");
+    // 4. Define the Save Profile function
+    window.saveProfile = async function() {
+        console.log("Saving profile...");
+        const name = document.getElementById("username").value;
+        const { data: { user } } = await supaClient.auth.getUser();
 
-// LOAD USER
-async function loadUserSettings(){
-  const { data: { user } } = await supaClient.auth.getUser();
+        if (!user) {
+            alert("User not logged in");
+            return;
+        }
 
-  if(!user){
-    window.location.href = "login.html";
-    return;
-  }
+        const { error } = await supaClient.auth.updateUser({
+            data: { display_name: name }
+        });
 
-  document.getElementById("email").value = user.email;
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            alert("Profile updated successfully!");
+        }
+    };
 
-  const name = user.user_metadata?.display_name;
-  if(name){
-    document.getElementById("username").value = name;
-  }
-}
+    // 5. Load User Data on page start
+    async function loadUserSettings() {
+        const { data: { user } } = await supaClient.auth.getUser();
 
-// SAVE PROFILE
-window.saveProfile = async function(){
-  console.log("clicked");
+        // If no user found, redirect to login
+        if (!user) {
+            console.log("No user session found, redirecting...");
+            window.location.href = "login.html";
+            return;
+        }
 
-  const name = document.getElementById("username").value;
+        // Fill the inputs with current data
+        document.getElementById("email").value = user.email || "";
+        const name = user.user_metadata?.display_name;
+        if (name) {
+            document.getElementById("username").value = name;
+        }
+    }
 
-  const { data: { user } } = await supaClient.auth.getUser();
-
-  if(!user){
-    alert("User not logged in");
-    return;
-  }
-
-  const { error } = await supaClient.auth.updateUser({
-    data: { display_name: name }
-  });
-
-  if(error){
-    alert(error.message);
-  } else {
-    alert("Name updated successfully!");
-  }
-}
-
-loadUserSettings();
+    // Run the load function
+    loadUserSettings();
 
 })();
 </script>
