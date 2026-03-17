@@ -31,9 +31,9 @@
 </a>
             </nav>
             <div class="p-4 border-t border-indigo-600">
-                <button class="w-full text-left py-2 px-4 hover:text-red-300 transition">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                </button>
+<button onclick="logout()" class="w-full text-left py-2 px-4 hover:text-red-300">
+    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+</button>
             </div>
         </aside>
 
@@ -102,150 +102,82 @@ Loading...
 </main>
 </div>
 <script>
-
 const SUPABASE_URL = "https://wbtzkgpkcigqaecdjlbn.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8";
 
+// Initialize client FIRST
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-console.log("Supabase connected:", client);
+async function logout() {
+  const { error } = await client.auth.signOut();
+  if (error) {
+    alert(error.message);
+  } else {
+    localStorage.removeItem("username");
+    window.location.href = "login.html";
+  }
+}
 
 async function loadBookings() {
-
-    const { data, error } = await client
-        .from("bookings")
-        .select("*");
-
-    console.log(data);
-
+    const { data, error } = await client.from("bookings").select("*");
     const table = document.getElementById("historyTable");
-
+    if(!table || !data) return;
     table.innerHTML = "";
-
     data.forEach(booking => {
-
         table.innerHTML += `
         <tr>
-        <td class="px-6 py-4 font-medium">${booking.parking_id}</td>
-        <td class="px-6 py-4 text-gray-600 text-sm">${booking.booking_time}</td>
-        <td class="px-6 py-4 text-gray-600 text-sm">3 Hours</td>
-        <td class="px-6 py-4 font-semibold">₹${booking.amount}</td>
-        <td class="px-6 py-4 text-green-600 font-semibold">Completed</td>
-        </tr>
-        `;
+            <td class="px-6 py-4 font-medium">${booking.parking_id}</td>
+            <td class="px-6 py-4 text-gray-600 text-sm">${booking.booking_time}</td>
+            <td class="px-6 py-4 text-gray-600 text-sm">3 Hours</td>
+            <td class="px-6 py-4 font-semibold">₹${booking.amount}</td>
+            <td class="px-6 py-4 text-green-600 font-semibold">Completed</td>
+        </tr>`;
     });
-
 }
-
-loadBookings();
 
 function loadUserHeader(){
-
-  let name = localStorage.getItem("username");
-
-  if(!name){
-    name = "User"; // fallback
-  }
-
-  document.getElementById("welcomeText").innerText =
-    "Welcome back, " + name;
+  let name = localStorage.getItem("username") || "User";
+  document.getElementById("welcomeText").innerText = "Welcome back, " + name;
 }
-
-loadUserHeader();
 
 async function loadWallet(){
-
-  const { data, error } = await client
-    .from("wallet")
-    .select("Balance")
-    .eq("username","Rohan Patri")
-    .single();
-
-  console.log(data);
-
-  if(data){
-    document.getElementById("walletBalance").innerText =
-      "₹" + data.Balance;
+  const { data } = await client.from("wallet").select("Balance").eq("username","Rohan Patri").single();
+  if(data) {
+    document.getElementById("walletBalance").innerText = "₹" + data.Balance;
   }
-
 }
-
-loadWallet();
-
-async function loadParkingStats(){
-
-  const { data, error } = await client
-    .from("bookings")
-    .select("duration");
-
-  console.log(data);
-
-  let totalHours = 0;
-
-  data.forEach(booking => {
-    totalHours += booking.duration;
-  });
-
-  const totalSessions = data.length;
-
-  document.getElementById("totalHours").innerText =
-    totalHours + " Hours";
-
-  document.getElementById("totalSessions").innerText =
-    "Across " + totalSessions + " sessions";
-
-}
-
-loadParkingStats();
 
 async function loadActiveBooking(){
-
-  const { data, error } = await client
-    .from("bookings")
-    .select("booking_time,duration,parking_id")
-    .order("booking_time",{ascending:false})
-    .limit(1)
-    .single();
-
-  console.log(data);
-
+  const { data } = await client.from("bookings").select("booking_time,duration,parking_id").order("booking_time",{ascending:false}).limit(1).single();
   if(!data){
     document.getElementById("parkingTimer").innerText = "No active booking";
     return;
   }
-
   startCountdown(data.booking_time, data.duration);
-
 }
 
 function startCountdown(startTime, duration){
-
   const start = new Date(startTime);
   const end = new Date(start.getTime() + duration * 60 * 60 * 1000);
-
   function updateTimer(){
-
     const now = new Date();
     const remaining = end - now;
-
     if(remaining <= 0){
       document.getElementById("parkingTimer").innerText = "Parking expired";
       return;
     }
-
     const minutes = Math.floor(remaining / 60000);
     const seconds = Math.floor((remaining % 60000) / 1000);
-
-    document.getElementById("parkingTimer").innerText =
-      "Ends in " + minutes + "m " + seconds + "s";
-
+    document.getElementById("parkingTimer").innerText = "Ends in " + minutes + "m " + seconds + "s";
   }
-
   updateTimer();
   setInterval(updateTimer,1000);
-
 }
 
+// CALL ALL FUNCTIONS
+loadBookings();
+loadUserHeader();
+loadWallet();
 loadActiveBooking();
 </script>
 </body>

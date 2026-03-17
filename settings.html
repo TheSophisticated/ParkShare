@@ -59,10 +59,9 @@
             <input id="email" type="email" placeholder="Email"
                 class="w-full border p-2 rounded mb-3">
 
-            <button onclick="saveProfile()"
-                class="bg-indigo-600 text-white px-4 py-2 rounded">
-                Save Changes
-            </button>
+<button onclick="saveProfile()" class="bg-indigo-600 text-white px-4 py-2 rounded">
+    Save Changes
+</button>
         </div>
 
         <!-- Password Change -->
@@ -95,31 +94,18 @@
 </div>
 
 <script>
-
+(function(){
 
 const SUPABASE_URL = "https://wbtzkgpkcigqaecdjlbn.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8";
+const SUPABASE_KEY = "YOUR_FULL_KEY";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supaClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+console.log("SCRIPT RUNNING");
 
-// function saveProfile(){
-//     alert("Profile updated (connect to Supabase later)");
-// }
-
-function changePassword(){
-    alert("Password updated (connect backend later)");
-}
-
-function deleteAccount(){
-    if(confirm("Are you sure?")){
-        alert("Account deleted (backend later)");
-    }
-}
-
-// load user
+// LOAD USER
 async function loadUserSettings(){
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await supaClient.auth.getUser();
 
   if(!user){
     window.location.href = "login.html";
@@ -129,33 +115,38 @@ async function loadUserSettings(){
   document.getElementById("email").value = user.email;
 
   const name = user.user_metadata?.display_name;
-
   if(name){
     document.getElementById("username").value = name;
   }
 }
 
+// SAVE PROFILE
+window.saveProfile = async function(){
+  console.log("clicked");
 
-
-loadUserSettings();
-
-async function saveProfile(){
   const name = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
 
-  const { data, error } = await supabase.auth.updateUser({
-    email: email,
+  const { data: { user } } = await supaClient.auth.getUser();
+
+  if(!user){
+    alert("User not logged in");
+    return;
+  }
+
+  const { error } = await supaClient.auth.updateUser({
     data: { display_name: name }
   });
 
   if(error){
     alert(error.message);
   } else {
-    localStorage.setItem("username", name);
-    alert("Profile updated successfully!");
+    alert("Name updated successfully!");
   }
 }
 
+loadUserSettings();
+
+})();
 </script>
 
 </body>
