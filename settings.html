@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkShare | Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+<div class="flex h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-indigo-700 text-white hidden md:flex flex-col">
+        <div class="p-6 text-2xl font-bold border-b border-indigo-600">
+            <i class="fas fa-parking mr-2"></i>ParkShare
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="userdashboard.html" class="block py-2.5 px-4 rounded hover:bg-indigo-600">
+                <i class="fas fa-home mr-2"></i> Dashboard
+            </a>
+            <a href="#" class="block py-2.5 px-4 rounded hover:bg-indigo-600">
+                <i class="fas fa-search mr-2"></i> Find Parking
+            </a>
+            <a href="#" class="block py-2.5 px-4 rounded hover:bg-indigo-600">
+                <i class="fas fa-history mr-2"></i> My Bookings
+            </a>
+            <a href="#" class="block py-2.5 px-4 rounded hover:bg-indigo-600">
+                <i class="fas fa-wallet mr-2"></i> Wallet
+            </a>
+            <a href="settings.html" class="block py-2.5 px-4 rounded bg-indigo-800">
+                <i class="fas fa-user-cog mr-2"></i> Settings
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-indigo-600">
+            <button class="w-full text-left py-2 px-4 hover:text-red-300">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 overflow-y-auto">
+
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Settings</h1>
+
+        <!-- Profile Settings -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border mb-6">
+            <h2 class="font-bold text-gray-700 mb-4">Profile Information</h2>
+
+            <input id="username" type="text" placeholder="Username"
+                class="w-full border p-2 rounded mb-3">
+
+            <input id="email" type="email" placeholder="Email"
+                class="w-full border p-2 rounded mb-3">
+
+            <button onclick="saveProfile()"
+                class="bg-indigo-600 text-white px-4 py-2 rounded">
+                Save Changes
+            </button>
+        </div>
+
+        <!-- Password Change -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border mb-6">
+            <h2 class="font-bold text-gray-700 mb-4">Change Password</h2>
+
+            <input type="password" id="oldPassword" placeholder="Old Password"
+                class="w-full border p-2 rounded mb-3">
+
+            <input type="password" id="newPassword" placeholder="New Password"
+                class="w-full border p-2 rounded mb-3">
+
+            <button onclick="changePassword()"
+                class="bg-indigo-600 text-white px-4 py-2 rounded">
+                Update Password
+            </button>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border">
+            <h2 class="font-bold text-red-600 mb-4">Danger Zone</h2>
+
+            <button onclick="deleteAccount()"
+                class="bg-red-600 text-white px-4 py-2 rounded">
+                Delete Account
+            </button>
+        </div>
+
+    </main>
+</div>
+
+<script>
+
+function saveProfile(){
+    alert("Profile updated (connect to Supabase later)");
+}
+
+function changePassword(){
+    alert("Password updated (connect backend later)");
+}
+
+function deleteAccount(){
+    if(confirm("Are you sure?")){
+        alert("Account deleted (backend later)");
+    }
+}
+
+</script>
+
+</body>
+</html>

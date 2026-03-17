@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review System with Storage</title>
+    
+    <style>
+        /* Colorful Full-Screen Background */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            /* A stylish blue-to-purple gradient */
+            background: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* The Glassmorphism Card Container */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            /* Semi-transparent white with a blur effect */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        h3 {
+            color: #1e1e2f;
+            margin-bottom: 12px;
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        p {
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        /* Star Rating Styling */
+        #star-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .star {
+            cursor: pointer;
+            font-size: 38px;
+            color: #cbd5e1; /* Default empty gray */
+            transition: color 0.2s ease-in-out, transform 0.1s;
+        }
+
+        /* Gold color for hovering or active state */
+        .star:hover,
+        .star.hovered,
+        .star.active {
+            color: #fbbf24;
+            transform: scale(1.1); /* Slight pop effect when hovered */
+        }
+
+        /* Form & Inputs */
+        #Comments {
+            margin-bottom: 20px;
+        }
+
+        #input-comments {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box; 
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        #input-comments:focus {
+            outline: none;
+            border-color: #9599E2;
+            background-color: #ffffff;
+        }
+
+        /* Buttons */
+        button {
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button:active {
+            transform: scale(0.96); 
+        }
+
+        #submit-btn {
+            background-color: #4facfe;
+            color: white;
+            box-shadow: 0 4px 10px rgba(79, 172, 254, 0.3);
+        }
+
+        #submit-btn:hover {
+            background-color: #3b82f6;
+            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.4);
+        }
+
+        #clear-btn {
+            background-color: #ff758c;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3);
+        }
+
+        #clear-btn:hover {
+            background-color: #ff5e78;
+            box-shadow: 0 6px 14px rgba(255, 94, 120, 0.4);
+        }
+
+        /* Dividers */
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d1d5db, transparent);
+            margin: 30px 0;
+        }
+
+        /* Reviews List */
+        #reviews-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #reviews-list li {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border-left: 4px solid #9599E2; /* Colorful accent line on reviews */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3>Provide a rating:</h3>
+
+        <div id="star-container">
+            <span class="star" data-value="1">&#9734;</span>
+            <span class="star" data-value="2">&#9734;</span>
+            <span class="star" data-value="3">&#9734;</span>
+            <span class="star" data-value="4">&#9734;</span>
+            <span class="star" data-value="5">&#9734;</span>
+        </div>
+
+        <p>Selected Rating: <span id="rating-output">0</span>/5</p>
+
+        <hr>
+
+        <form id="Comments" onsubmit="event.preventDefault();"> 
+            <h3>Leave a Comment:</h3>
+            <input type="text" id="input-comments" placeholder="Write your experience here...">
+        </form>
+
+        <button id="submit-btn">Submit Review</button>
+        <button id="clear-btn">Clear All</button>
+
+        <hr>
+
+        <h3>Stored Reviews:</h3>
+        <ul id="reviews-list">
+            <li>
+                <strong>Rating: 4/5 ⭐️</strong>
+                <span>"Great product, really enjoyed it!"</span>
+            </li>
+        </ul>
+    </div>
+
+    <script src="reviewsystembackend.js"></script>
+
+</body>
+</html

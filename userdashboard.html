@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkShare | User Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-indigo-700 text-white hidden md:flex flex-col">
+            <div class="p-6 text-2xl font-bold border-b border-indigo-600">
+                <i class="fas fa-parking mr-2"></i>ParkShare
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="block py-2.5 px-4 rounded bg-indigo-800 transition shadow-sm">
+                    <i class="fas fa-home mr-2 text-sm"></i> Dashboard
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded hover:bg-indigo-600 transition">
+                    <i class="fas fa-search mr-2 text-sm"></i> Find Parking
+                </a>
+                <a href="#" class="block py-2.5 px-4 rounded hover:bg-indigo-600 transition">
+                    <i class="fas fa-history mr-2 text-sm"></i> My Bookings
+                </a>
+<a href="settings.html" 
+   class="block py-2.5 px-4 rounded hover:bg-indigo-600 transition">
+    <i class="fas fa-user-cog mr-2 text-sm"></i> Settings
+</a>
+            </nav>
+            <div class="p-4 border-t border-indigo-600">
+                <button class="w-full text-left py-2 px-4 hover:text-red-300 transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto">
+            <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+                <h1 class="text-xl font-semibold text-gray-800">Welcome back, User!</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">Member since 2026</span>
+                    
+                </div>
+            </header>
+
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <p class="text-gray-500 text-sm uppercase font-bold">Active Booking</p>
+                        <h2 class="text-2xl font-bold text-indigo-700 mt-1">Spot #402</h2>
+                        <p id="parkingTimer" class="text-xs text-green-500 mt-2 font-semibold">
+Loading...
+</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <p class="text-gray-500 text-sm uppercase font-bold">Wallet Balance</p>
+                        <h2 id="walletBalance" class="text-2xl font-bold text-gray-800 mt-1">₹0</h2>
+                        <p class="text-xs text-indigo-500 mt-2 hover:underline cursor-pointer">Add funds →</p>
+                    </div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+    <p class="text-gray-500 text-sm uppercase font-bold">Reviews & Ratings</p>
+    
+    <h2 id="avgRating" class="text-2xl font-bold text-yellow-500 mt-1">⭐ 0.0</h2>
+    <p id="totalReviews" class="text-xs text-gray-400 mt-2">0 reviews</p>
+
+<a href="reviewsystem.html" 
+   class="mt-3 inline-block text-sm text-indigo-600 hover:underline">
+   Add Review →
+</a>
+</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="font-bold text-gray-800">Recent History</h3>
+                        <button class="text-indigo-600 text-sm font-semibold hover:text-indigo-800 transition">View All</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Location</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Date</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Duration</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Cost</th>
+                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Status</th>
+                                </tr>
+                            </thead>
+<tbody id="historyTable" class="divide-y divide-gray-100">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+</main>
+</div>
+<script>
+
+const SUPABASE_URL = "https://wbtzkgpkcigqaecdjlbn.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8";
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+console.log("Supabase connected:", client);
+
+async function loadBookings() {
+
+    const { data, error } = await client
+        .from("bookings")
+        .select("*");
+
+    console.log(data);
+
+    const table = document.getElementById("historyTable");
+
+    table.innerHTML = "";
+
+    data.forEach(booking => {
+
+        table.innerHTML += `
+        <tr>
+        <td class="px-6 py-4 font-medium">${booking.parking_id}</td>
+        <td class="px-6 py-4 text-gray-600 text-sm">${booking.booking_time}</td>
+        <td class="px-6 py-4 text-gray-600 text-sm">3 Hours</td>
+        <td class="px-6 py-4 font-semibold">₹${booking.amount}</td>
+        <td class="px-6 py-4 text-green-600 font-semibold">Completed</td>
+        </tr>
+        `;
+    });
+
+}
+
+loadBookings();
+
+async function loadWallet(){
+
+  const { data, error } = await client
+    .from("wallet")
+    .select("Balance")
+    .eq("username","Rohan Patri")
+    .single();
+
+  console.log(data);
+
+  if(data){
+    document.getElementById("walletBalance").innerText =
+      "₹" + data.Balance;
+  }
+
+}
+
+loadWallet();
+
+async function loadParkingStats(){
+
+  const { data, error } = await client
+    .from("bookings")
+    .select("duration");
+
+  console.log(data);
+
+  let totalHours = 0;
+
+  data.forEach(booking => {
+    totalHours += booking.duration;
+  });
+
+  const totalSessions = data.length;
+
+  document.getElementById("totalHours").innerText =
+    totalHours + " Hours";
+
+  document.getElementById("totalSessions").innerText =
+    "Across " + totalSessions + " sessions";
+
+}
+
+loadParkingStats();
+
+async function loadActiveBooking(){
+
+  const { data, error } = await client
+    .from("bookings")
+    .select("booking_time,duration,parking_id")
+    .order("booking_time",{ascending:false})
+    .limit(1)
+    .single();
+
+  console.log(data);
+
+  if(!data){
+    document.getElementById("parkingTimer").innerText = "No active booking";
+    return;
+  }
+
+  startCountdown(data.booking_time, data.duration);
+
+}
+
+function startCountdown(startTime, duration){
+
+  const start = new Date(startTime);
+  const end = new Date(start.getTime() + duration * 60 * 60 * 1000);
+
+  function updateTimer(){
+
+    const now = new Date();
+    const remaining = end - now;
+
+    if(remaining <= 0){
+      document.getElementById("parkingTimer").innerText = "Parking expired";
+      return;
+    }
+
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    document.getElementById("parkingTimer").innerText =
+      "Ends in " + minutes + "m " + seconds + "s";
+
+  }
+
+  updateTimer();
+  setInterval(updateTimer,1000);
+
+}
+
+loadActiveBooking();
+</script>
+</body>
+</html>
