@@ -1,640 +1,166 @@
-*{
-    padding: 0;
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    padding: 0;
 }
 
-body{
-    background-color: #F2F3F2;
-}
-
-.first_page{
-    border-radius: 32px;
-    background-color: white;
-    padding-bottom: 50px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-
-    padding-top: 30px;
-}
-
-.booking_page{
-    margin-left: 3.5%;
-    margin-right: 3.5%;
-    margin-top: 50px;
-
-    border-radius: 32px;
-
-    background-color: white;
-}
-
-.Socials{
-    display : flex;
-    justify-content: center;
-
-    background-color: black;
-
-
-}
-
-.options{
-    display : grid;
-    grid-template-columns: 1fr 1fr 1fr;
-
-    margin-left: 3.5%;
-    margin-right: 3.5%;
-    margin-top: 50px;
-
-}
-
-.heading{
-    position: sticky;
-    top : 0;
-    /* width: 100%; */
-    z-index: 10000;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
-
-
-    padding-bottom: 10px;
-    padding-top: 10px;
-    padding-left: 20px;
-
-    background-color: white;
-}
-.logo{
-    justify-content: center;
-    align-items: center;
-
-    margin-top: 30px;
-    margin-left: 50px;
-}
-
-.logo a{
-    text-decoration: none;
-    font-size: 1.7rem;
-    font-weight: 900;
-    color :purple;
-    font-family: "Varela Round", sans-serif;
-
-}
-
-.booking_renting{
+body {
+    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
-    text-align: center;
-    margin-top: 30px ;
-}
-
-.booking_renting a{
-    text-decoration: none;
-    color: black;
-    font-family: "Varela Round", sans-serif;
-    font-weight: 100;
-    font-size: 1.4rem;
-    margin-right: 30px;
-    margin-top: 30px;
-    vertical-align: top;
-
-    transition: all 0.3s;
-}
-
-
-.image_br{
-    margin-top: 1px;
-    height: 1.5rem;
-    vertical-align: top;
-    margin-right: 10px;
     align-items: center;
-
-    transition: all 0.3s;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-.bookOption:hover a{
-    font-size: 1.8rem;
-}
-
-.bookOption:hover .image_br{
-    height: 2rem;
-}
-
-.rentOption:hover a{
-    font-size: 1.8rem;
-}
-
-.rentOption:hover .image_br{
-    height: 2rem;
-}
-
-
-.login{
-    text-align: right;
-    margin-top: 30px ;
-}
-
-.login a{
-    text-decoration: none;
-    color: black;
-    font-family: "Varela Round", sans-serif;
-    font-weight: 100;
-    font-size: 1.4rem;
-    margin-right: 30px;
-    margin-top: 30px;
-    vertical-align: top;
-    margin-right: 50px;
-}
-
-.cool{
-    align-items: center;
-}
-
-.bg{
-    display: inline;
+.booking-container {
+    background: #fff;
+    display: flex;
+    max-width: 900px;
     width: 100%;
-    
-    border-radius: 40px;
-}
-
-
-.input_location{
-    background-color: #F2F3F2;
-    border-radius: 14px;
-    border-width: 1px;
-    border-color: white;
-    width: 10rem;
-    height: 2.8rem;
-    text-align: center;
-
-    font-family: "Varela Round", sans-serif;
-    font-weight: 300;
-    font-size: 1.2rem;
-
-    margin-left: 5%;
-    margin-top: 50px;
-}
-
-.qoute{
-    margin-left: 5%;
-    margin-top: 30px;
-
-    font-family: "Bitcount Single", system-ui;
-    font-weight: 500;
-    font-style: normal;
-
-    letter-spacing: -2px;
-    word-spacing: -15px;
-
-    font-size: 70px;
-}
-
-.working{
-    margin-left: 5%;
-    margin-top: 15px;
-
-    color : gray;
-
-    font-family: "Overpass", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-style: normal;
-
-    font-size: 35px;
-}
-
-.location_icon{
-    display: inline;
-    width: 50px;
-    height: auto;
-    vertical-align: top;
-    margin-top: 50px;
-
-    transition: all 0.3s;
-}
-
-.location_icon:hover{
-    margin-top: 40px;
-    width: 60px;
-}
-
-.book_parking{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.book_text{
-    text-align: left;
-
-    color: #3B453F;
-    font-family: "Varela Round", sans-serif;
-    font-weight: 100;
-    font-size: 1.4rem;
-
-    margin-top: 40px;
-    margin-left: 40px;
-
-    vertical-align: top;
-}
-
-.book_parking a{
-    margin-top: 40px;
-    margin-right: 40px;
-
-    text-decoration: none;
-
-    text-align: right;
-
-    color: #3B453F;
-    font-family: "Varela Round", sans-serif;
-    font-weight: 100;
-    font-size: 1rem;
-    letter-spacing: -1px;
-}
-
-
-
-.parking{
-    border: 1px solid #E3E8E6;
-    
-    border-radius: 10px;
-
-    margin-right: 20px;
-    margin-bottom: 50px;
-
-    padding-bottom: 30px;
-
-    transition: all 0.1s;
-}
-
-.parking:hover{
-    padding-right: 5px;
-    margin-right: 15px;
-
-    padding-top: 5px;
-
-    padding-bottom: 5px;
-    margin-bottom: 45px;
-
-    padding-left: 5px;
-}
-
-.thumbnail{
-    margin-left: 2.5%;
-    margin-top: 10px;
-
-    width: 95%;
-    height: 200px;
-}
-
-.thumbnail img{
-    width: 95%;
-    height: 200px;
-    border-radius: 10px;
-}
-
-.title{
-    margin-top: 20px;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-
-
-    font-family: "Arimo", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-
-
-}
-
-.title_link{
-    margin-top: 20px;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-}
-
-.title_link a{
-    text-decoration: none;
-
-    font-family: "Arimo", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-
-    color: black;
-    width: 90%;
-}
-
-.owner_profile{
-    margin-top: 20px;
-    margin-left: 2.5%;
-
-}
-
-.owner_profile a{
-    text-decoration: none;
-
-    font-family: "Arimo", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-
-    color: black;
-    width: 90%;
-}
-
-.yt{
-    width: auto;
-    height:80px;
-    vertical-align: top;
-    float : right;
-
-    transition: all 0.3s;
-}
-
-.ig{
-    width: auto;
-    height:80px;
-    vertical-align: top;
-    float : middle;
-
-    transition: all 0.3s;
-
-}
-
-.fb{
-    width: auto;
-    height:60px;
-    vertical-align: top;
-    float : middle;
-
-    transition: all 0.3s;
-
-}
-
-.ld{
-    width: auto;
-    height:80px;
-    vertical-align: top;
-    float : left;
-
-    transition: all 0.3s;
-}
-
-.yt:hover{
-    height: 90px;
-}
-
-.ig:hover{
-    height: 90px;
-}
-
-.fb:hover{
-    height: 70px;
-}
-
-.ld:hover{
-    height: 90px;
-}
-
-
-
-
-
-
-
-
-.hidden{
-    display: none !important;
-}
-
-.activate{
-    animation: scale-up 0.7s cubic-bezier(0.215, 0.610, 0.355, 1);
-}
-
-.deactivate{
-    animation: close 0.7s cubic-bezier(0.215, 0.610, 0.355, 1);
-}
-
-@keyframes scale-up{
-    0%{
-        transform: scale(0%, 0%);
-    }
-    100%{
-        transform: scale(100%, 100%);
-    }
-}
-
-@keyframes close{
-    0%{
-        transform: scale(100%, 100%);
-    }
-    100%{
-        transform: scale(0%, 0%);
-    }
-}
-
-.search-overlay{
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.search-region{
-/* 
-    backdrop-filter: blur(8px);
-    background-color: rgba(0, 0, 0, 0.5); */
-    border-radius: 15px;
-    width: 60%;
-    height: 70%;
-    /* background-color: white; */
-}
-
-.input-location-bar{
-    backdrop-filter: blur(12px);
-    background-color: rgba(0, 0, 0, 0.5);
-
-    padding-left: 20px; /* Space for the icon */
-    background-image: url('images/search.png');
-    background-repeat: no-repeat;
-    background-size: 25px;
-    background-position: 10px center;
-    
-    color :white;
-    text-align: left;
-    /* background-color: #F2F3F2; */
-
-    border-radius: 20px;
-    border-width: 2px;
-    border-color: white;
-
-
-    width: 48.5rem;
-    height: 3rem;
-
-    font-family: "Varela Round", sans-serif;
-    font-weight: 300;
-    font-size: 25px;
-
-    margin-left: 7%;
-    margin-top: 85px;
-
-    text-indent: 30px;
-}
-
-.input-location-bar::placeholder{
-    padding-top: 25px;
-    vertical-align: bottom;
-    color: white;
-
-    font-size: 25px;
-}
-
-#results-list {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(12px);
-    color: white;
-    border-radius: 10px 10px 8px 8px; 
-
-    margin-left: 7%;
-    max-height: 300px;
-    overflow-y: auto;
-    
-    width: 50rem;
-}
-
-.autocomplete-item {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-    font-size: 16px;
-    color: white;
-}
-
-.autocomplete-item:hover {
-    background-color: rgba(0, 0, 0, 0.641);
-}
-
-
-
-
-
-
-
-
-.faq_section{
-    margin-left: 3.5%;
-    margin-right: 3.5%;
-    margin-top: 50px;
-    background-color: white;
-    border-radius: 32px;
-    padding: 60px;
-}
-
-.faq_title{
-    font-family: "Varela Round", sans-serif;
-    font-size: 2rem;
-    color: purple;
-    margin-bottom: 35px;
-}
-
-.faq_item{
-    border-bottom: 1px solid #E3E8E6;
-}
-
-.faq_question{
-    width: 100%;
-    padding: 22px 0;
-    border: none;
-    background: none;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    font-family: "Arimo", sans-serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-.faq_question:hover{
-    color: purple;
-}
-
-.faq_icon{
-    font-size: 1.4rem;
-    transition: transform 0.3s ease;
-}
-
-.faq_answer{
-    max-height: 0;
+    border-radius: 8px;
     overflow: hidden;
-    transition: max-height 0.35s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 
-    font-family: "Arimo", sans-serif;
+/* Left Panel */
+.info-panel {
+    flex: 1;
+    background-color: #fcfcfc;
+    border-right: 1px solid #eee;
+}
+
+.image-placeholder img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.info-content {
+    padding: 30px;
+}
+
+.category {
+    color: #4a69bd;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+.price {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.tagline {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.features {
+    list-style: none;
     color: #555;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
-.faq_answer p{
-    padding-bottom: 20px;
+/* Right Panel / Form */
+.form-panel {
+    flex: 1.5;
+    padding: 40px;
 }
 
-.faq_item.active .faq_icon{
-    transform: rotate(180deg);
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
 }
 
-
-
-
-
-
-
-
-
-.about_platform{
-
-    margin-top: 50px;
-
-    background-color: white;
-    border-radius: 32px 32px 0 0;
-    padding: 60px;
+.subtitle {
+    color: #777;
+    margin-bottom: 25px;
 }
 
-.platform_grid{
+.input-group {
+    margin-bottom: 20px;
+}
 
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+.name-row {
+    display: flex;
+    gap: 15px;
+}
+
+.name-row .input-group {
+    flex: 1;
+}
+
+/* Time Slots */
+.slots-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-
-    gap: 60px;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
-.platform_block h2{
-
-    font-family: "Varela Round", sans-serif;
-    font-size: 1.5rem;
-
-    margin-bottom: 20px;
-
-    color: #3B453F;
+.slot {
+    padding: 10px 5px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-align: center;
 }
 
-.platform_block p{
+.slot:hover {
+    background: #e0e0e0;
+}
 
-    font-family: "Overpass", sans-serif;
-
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #2b52a2;
+    color: white;
+    border: none;
+    border-radius: 4px;
     font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
 
-    color: #555;
+.submit-btn:hover {
+    background-color: #1e3a7a;
+}
 
-    line-height: 1.7;
+/* Responsive */
+@media (max-width: 768px) {
+    .booking-container {
+        flex-direction: column;
+    }
+    .slots-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
