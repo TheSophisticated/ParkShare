@@ -1,1 +1,2 @@
-Front Page of Front end in ParkShare started !
+ParkShare - Where Parking Meets Convenience
+One seamless platform to book Parking and Rent your Space
