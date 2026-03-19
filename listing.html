@@ -276,6 +276,12 @@ body{
 
 
 <!-- HEADER -->
+    <div id="search-overlay" class="search-overlay hidden">
+        <div id="search-region" class="search-region">
+            <input type="text" placeholder="Location" id="auto-search-input" class = "input-location-bar">
+            <div id="results-list"></div>
+        </div>
+    </div>
 
     <div class = "heading">
         <!-- <img src="logo.png" class="logo"> -->
@@ -431,6 +437,8 @@ body{
         <a href = "#"><img src = "images/linkedin.jpg" class = "ld"></a>
 
     </div>
+
+    <script type="module" src="search.js"></script>
 
 </body>
 </html>
