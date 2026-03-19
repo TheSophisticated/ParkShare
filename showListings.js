@@ -13,30 +13,32 @@ if(session){
 
     data.forEach((item, index) => {
         const card = `
-            <div class="card" style="animation-delay:${index*0.15}s">
+           <a href = "booking.html?id=${item.parking_id}" style="text-decoration: none">
+                <div class="card" style="animation-delay:${index*0.15}s">
 
-                <div class="card-header">
+                    <div class="card-header">
 
-                    <img class="avatar" src = "images/profile.png">
+                        <img class="avatar" src = "images/profile.png">
 
-                    <div>
-                        <div class="vehicle">${item.vehicle_type}</div>
-                        <div class="renter">${item.renter_name}</div>
+                        <div>
+                            <div class="vehicle">${item.vehicle_type}</div>
+                            <div class="renter">${item.renter_name}</div>
+                        </div>
+
+                    </div>
+
+                    <img class="space" src="${item.image}" alt="Parking Space">
+
+                    <div class="location">
+                        📍 Parking space available
+                    </div>
+
+                    <div class="price">
+                        ₹${item.rate} <span style="font-size:0.8rem;color:#777;">/hour</span>
                     </div>
 
                 </div>
-
-                <img class="space" src="${item.image}" alt="Parking Space">
-
-                <div class="location">
-                    📍 Parking space available
-                </div>
-
-                <div class="price">
-                    ₹${item.rate} <span style="font-size:0.8rem;color:#777;">/hour</span>
-                </div>
-
-            </div>
+            </a>
         `;
 
         listDiv.innerHTML += card;
