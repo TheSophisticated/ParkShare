@@ -144,19 +144,62 @@ async function logout(){
 }
 
 async function loadBookings(){
-    const { data } = await client.from("bookings").select("*");
+
+    const username = localStorage.getItem("username");
+
+    if(!username){
+        document.getElementById("historyTable").innerHTML =
+        `<tr><td colspan="5" class="text-center py-6 text-gray-400">
+        Please login to see bookings
+        </td></tr>`;
+        return;
+    }
+
+    const { data, error } = await client
+        .from("bookings")
+        .select("*")
+        .eq("username", username)
+        .order("booking_time", { ascending: false });
+
+    console.log("History Data:", data);
+
     const table = document.getElementById("historyTable");
-    if(!data) return;
+
+    if(error || !data || data.length === 0){
+        table.innerHTML =
+        `<tr><td colspan="5" class="text-center py-6 text-gray-400">
+        No booking history found
+        </td></tr>`;
+        return;
+    }
 
     table.innerHTML = "";
+
     data.forEach(b => {
+
+        // 🧠 Calculate status dynamically
+        const start = new Date(b.booking_time);
+        const end = new Date(start.getTime() + b.duration * 60 * 60 * 1000);
+        const now = new Date();
+
+        let status = now > end ? "Completed" : "Active";
+        let statusColor = now > end ? "text-green-600" : "text-yellow-500";
+
         table.innerHTML += `
-        <tr>
-            <td class="px-6 py-4 font-medium">${b.parking_id}</td>
-            <td class="px-6 py-4 text-gray-600 text-sm">${b.booking_time}</td>
-            <td class="px-6 py-4 text-gray-600 text-sm">3 Hours</td>
-            <td class="px-6 py-4 font-semibold">₹${b.amount}</td>
-            <td class="px-6 py-4 text-green-600 font-semibold">Completed</td>
+        <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4 font-medium">#${b.parking_id}</td>
+            <td class="px-6 py-4 text-gray-600 text-sm">
+                ${new Date(b.booking_time).toLocaleString()}
+            </td>
+            <td class="px-6 py-4 text-gray-600 text-sm">
+                ${b.duration} Hours
+            </td>
+            <td class="px-6 py-4 font-semibold">
+                ₹${b.amount}
+            </td>
+            <td class="px-6 py-4 font-semibold ${statusColor}">
+                ${status}
+            </td>
         </tr>`;
     });
 }
@@ -174,18 +217,34 @@ async function loadWallet(){
 }
 
 async function loadActiveBooking(){
-  const { data } = await client.from("bookings")
-    .select("booking_time,duration")
-    .order("booking_time",{ascending:false})
-    .limit(1)
-    .single();
 
-  if(!data){
+  const username = localStorage.getItem("username");
+
+  if(!username){
+    document.getElementById("parkingTimer").innerText = "User not logged in";
+    return;
+  }
+
+  const { data, error } = await client
+    .from("bookings")
+    .select("*")
+    .eq("username", username)
+    .order("booking_time", { ascending: false })
+    .limit(1);
+
+  console.log("Booking Data:", data);
+
+  if(error || !data || data.length === 0){
     document.getElementById("parkingTimer").innerText = "No active booking";
     return;
   }
 
-  startCountdown(data.booking_time, data.duration);
+  const booking = data[0];
+
+  // Optional: show spot dynamically
+  document.querySelector("h2").innerText = "Spot #" + booking.parking_id;
+
+  startCountdown(booking.booking_time, booking.duration);
 }
 
 function startCountdown(startTime, duration){
