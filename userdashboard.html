@@ -34,9 +34,7 @@
 <i class="fas fa-search mr-2"></i>Find Parking
 </a>
 
-<a href="#" class="block py-2.5 px-4 rounded-lg hover:bg-purple-500 transition">
-<i class="fas fa-history mr-2"></i>My Bookings
-</a>
+
 
 <a href="settings.html" class="block py-2.5 px-4 rounded-lg hover:bg-purple-500 transition">
 <i class="fas fa-user-cog mr-2"></i>Settings
@@ -71,15 +69,27 @@ Welcome back!
 
 <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
 <p class="text-gray-500 text-sm font-semibold">ACTIVE BOOKING</p>
-<h2 class="text-2xl font-bold text-purple-600 mt-1">Spot #402</h2>
+<h2 id="activeSpot" class="text-2xl font-bold text-purple-600 mt-1">
+  Loading...
+</h2>
 <p id="parkingTimer" class="text-sm text-green-500 mt-2 font-semibold">Loading...</p>
 </div>
 
-<div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-<p class="text-gray-500 text-sm font-semibold">WALLET BALANCE</p>
-<h2 id="walletBalance" class="text-2xl font-bold text-gray-800 mt-1">₹0</h2>
-<p class="text-sm text-purple-600 mt-2 hover:underline cursor-pointer">Add funds →</p>
+<a href="rentPage.html">
+<div class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white p-6 rounded-2xl shadow-md hover:shadow-lg transition cursor-pointer hover:scale-105">
+
+<p class="text-sm font-semibold opacity-80">RENT YOUR SPACE</p>
+
+<h2 class="text-2xl font-bold mt-1">
+  <i class="fas fa-parking mr-2"></i>List Parking
+</h2>
+
+<p class="text-sm mt-2 underline">
+  Earn money by renting →
+</p>
+
 </div>
+</a>
 
 <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
 <p class="text-gray-500 text-sm font-semibold">REVIEWS & RATINGS</p>
@@ -108,7 +118,7 @@ View All
 
 <thead class="bg-gray-50">
 <tr>
-<th class="px-6 py-3 text-xs text-gray-500 uppercase">Location</th>
+<th class="px-6 py-3 text-xs text-gray-500 uppercase">Parking_ID</th>
 <th class="px-6 py-3 text-xs text-gray-500 uppercase">Date</th>
 <th class="px-6 py-3 text-xs text-gray-500 uppercase">Duration</th>
 <th class="px-6 py-3 text-xs text-gray-500 uppercase">Cost</th>
@@ -145,61 +155,50 @@ async function logout(){
 
 async function loadBookings(){
 
-    const username = localStorage.getItem("username");
+    const table = document.getElementById("historyTable");
 
-    if(!username){
-        document.getElementById("historyTable").innerHTML =
-        `<tr><td colspan="5" class="text-center py-6 text-gray-400">
-        Please login to see bookings
-        </td></tr>`;
+    // 🔑 Get logged-in user
+    const { data: { user } } = await client.auth.getUser();
+
+    if(!user){
+        table.innerHTML = `
+        <tr>
+            <td colspan="5" class="text-center py-6 text-gray-400">
+                Please login
+            </td>
+        </tr>`;
         return;
     }
 
+    // 🔥 Fetch only THIS user's bookings
     const { data, error } = await client
         .from("bookings")
         .select("*")
-        .eq("username", username)
-        .order("booking_time", { ascending: false });
+        .eq("user_id", user.id)
+        .order("date", { ascending: false });
 
-    console.log("History Data:", data);
-
-    const table = document.getElementById("historyTable");
+    console.log("User bookings:", data);
 
     if(error || !data || data.length === 0){
-        table.innerHTML =
-        `<tr><td colspan="5" class="text-center py-6 text-gray-400">
-        No booking history found
-        </td></tr>`;
+        table.innerHTML = `
+        <tr>
+            <td colspan="5" class="text-center py-6 text-gray-400">
+                No booking history found
+            </td>
+        </tr>`;
         return;
     }
 
     table.innerHTML = "";
 
     data.forEach(b => {
-
-        // 🧠 Calculate status dynamically
-        const start = new Date(b.booking_time);
-        const end = new Date(start.getTime() + b.duration * 60 * 60 * 1000);
-        const now = new Date();
-
-        let status = now > end ? "Completed" : "Active";
-        let statusColor = now > end ? "text-green-600" : "text-yellow-500";
-
         table.innerHTML += `
-        <tr class="hover:bg-gray-50 transition">
+        <tr class="hover:bg-gray-50">
             <td class="px-6 py-4 font-medium">#${b.parking_id}</td>
-            <td class="px-6 py-4 text-gray-600 text-sm">
-                ${new Date(b.booking_time).toLocaleString()}
-            </td>
-            <td class="px-6 py-4 text-gray-600 text-sm">
-                ${b.duration} Hours
-            </td>
-            <td class="px-6 py-4 font-semibold">
-                ₹${b.amount}
-            </td>
-            <td class="px-6 py-4 font-semibold ${statusColor}">
-                ${status}
-            </td>
+            <td class="px-6 py-4 text-sm">${b.date}</td>
+            <td class="px-6 py-4 text-sm">${b.time_slot}</td>
+            <td class="px-6 py-4 font-semibold">₹${b.amount || 50}</td>
+            <td class="px-6 py-4 text-green-600 font-semibold">Completed</td>
         </tr>`;
     });
 }
@@ -218,33 +217,35 @@ async function loadWallet(){
 
 async function loadActiveBooking(){
 
-  const username = localStorage.getItem("username");
+  const { data: { user } } = await client.auth.getUser();
 
-  if(!username){
-    document.getElementById("parkingTimer").innerText = "User not logged in";
+  if(!user){
+    document.getElementById("activeSpot").innerText = "No booking";
+    document.getElementById("parkingTimer").innerText = "Login required";
     return;
   }
 
   const { data, error } = await client
     .from("bookings")
     .select("*")
-    .eq("username", username)
-    .order("booking_time", { ascending: false })
+    .eq("user_id", user.id)
+    .order("date", { ascending: false })
     .limit(1);
 
-  console.log("Booking Data:", data);
+  console.log("Active booking:", data);
 
   if(error || !data || data.length === 0){
+    document.getElementById("activeSpot").innerText = "No booking";
     document.getElementById("parkingTimer").innerText = "No active booking";
     return;
   }
 
   const booking = data[0];
 
-  // Optional: show spot dynamically
-  document.querySelector("h2").innerText = "Spot #" + booking.parking_id;
+  // 🔥 Update UI dynamically
+  document.getElementById("activeSpot").innerText =
+    "Spot #" + booking.parking_id.slice(0,6)
 
-  startCountdown(booking.booking_time, booking.duration);
 }
 
 function startCountdown(startTime, duration){
