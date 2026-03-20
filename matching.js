@@ -59,23 +59,25 @@ async function init() {
 function renderResults(spaces) {
     const list = document.getElementById('results-list');
     list.innerHTML = spaces.map((space, index) => `
-        <div class="rank-card">
-            <div class="rank-number">#${index + 1}</div>
-            <img src="${space.image}" class="space-img" onerror="this.src='https://via.placeholder.com/240x160?text=No+Image'">
-            
-            <div class="info-section">
-                <div class="match-badge">${space.matchScore}% Greedy Match</div>
-                <div class="renter-name">${space.renter_name}'s Spot</div>
-                <div class="distance-tag">📍 ${(space.distance_meters / 1000).toFixed(1)} km away</div>
-                <p style="margin-top:10px; font-size:0.9rem; color:#4a5568;">Vehicle: <strong>${space.vehicle_type}</strong></p>
-            </div>
+        <a href = "booking.html?id=${space.parking_id}" style="text-decoration: none">
+            <div class="rank-card">
+                <div class="rank-number">#${index + 1}</div>
+                <img src="${space.image}" class="space-img" onerror="this.src='https://via.placeholder.com/240x160?text=No+Image'">
+                
+                <div class="info-section">
+                    <div class="match-badge">${space.matchScore}% Greedy Match</div>
+                    <div class="renter-name">${space.renter_name}'s Spot</div>
+                    <div class="distance-tag">📍 ${(space.distance_meters / 1000).toFixed(1)} km away</div>
+                    <p style="margin-top:10px; font-size:0.9rem; color:#4a5568;">Vehicle: <strong>${space.vehicle_type}</strong></p>
+                </div>
 
-            <div class="action-section">
-                <div class="price-val">₹${space.rate}</div>
-                <div class="price-unit">per hour</div>
-                <button class="book-btn" onclick="handleBooking('${space.parking_id}')">Book Now</button>
+                <div class="action-section">
+                    <div class="price-val">₹${space.rate}</div>
+                    <div class="price-unit">per hour</div>
+                    <button class="book-btn" onclick="handleBooking('${space.parking_id}')">Book Now</button>
+                </div>
             </div>
-        </div>
+        </a>
     `).join('');
 }
 

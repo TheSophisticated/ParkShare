@@ -200,6 +200,75 @@ body{
 .footer-column a:hover{
     color:black;
 }
+
+
+.location{
+    font-size:0.9rem;
+    color:#666;
+    margin-top:10px;
+}
+
+.price{
+    margin-top:14px;
+    font-weight:700;
+    font-size:1.25rem;
+    color:purple;
+}
+
+.loading{
+    grid-column:1/-1;
+    text-align:center;
+    font-size:1.2rem;
+}
+
+
+.input_location_listing{
+    background-color: white;
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: white;
+    width: 15rem;
+    height: 2.8rem;
+    text-align: center;
+
+    margin-top: 5px;
+
+    font-family: "Varela Round", sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+
+
+.location_icon_listing{
+    display: inline;
+    width: 50px;
+    height: auto;
+    vertical-align: top;
+
+    transition: all 0.3s;
+}
+
+.location_icon_listing:hover{
+    width: 55px;
+}
+
+.location_listing{
+    padding-left: 50%;
+    
+}
+
+
+.location_bar{
+    margin-top: 50px;
+    margin-bottom: 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+.listings_heading{
+    margin-top: 5px;
+}
 </style>
 </head>
 
@@ -207,6 +276,12 @@ body{
 
 
 <!-- HEADER -->
+    <div id="search-overlay" class="search-overlay hidden">
+        <div id="search-region" class="search-region">
+            <input type="text" placeholder="Location" id="auto-search-input" class = "input-location-bar">
+            <div id="results-list"></div>
+        </div>
+    </div>
 
     <div class = "heading">
         <!-- <img src="logo.png" class="logo"> -->
@@ -228,7 +303,17 @@ body{
 
     <div class="list">
 
-    <h1 class="listings_heading">Parking Spaces in Location</h1>
+    <div class = "location_bar">
+        <h1 class="listings_heading">Parking Spaces in Location</h1>
+
+        <!-- Location Enter -->
+
+        <div class = "location_listing" id="search-bar"> 
+            <input type="text" placeholder="Location" class = "input_location_listing">
+            <img src="images/location_icon.png" class = "location_icon_listing">
+        </div>
+
+    </div>
 
     <div id="listings">
     <p class="loading">Fetching parking spaces...</p>
@@ -352,6 +437,8 @@ body{
         <a href = "#"><img src = "images/linkedin.jpg" class = "ld"></a>
 
     </div>
+
+    <script type="module" src="search.js"></script>
 
 </body>
 </html>

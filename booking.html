@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Page</title>
+    <link rel="stylesheet" href="bookingStyle.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        *{
+            padding:0;
+            margin:0;
+            box-sizing:border-box;
+            font-family:'Overpass',sans-serif;
+        }
+
+        body{
+            background:#F2F3F2;
+        }
+
+        header { 
+            text-align: center; 
+            padding: 50px 0; 
+            background: #ffffff; 
+            border-radius: 15px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            margin-bottom: 30px; 
+        }
+
+        h1 { 
+            margin: 0; 
+            color: purple; 
+            font-size: 2.5rem; 
+        }
+
+        .logout-btn{
+            background: purple;
+            color: white;
+            border: none;
+            padding: 6px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-right: 1rem;
+        }
+
+        .list{
+            max-width:1200px;
+            margin:auto;
+        }
+
+        .main-heading{
+            font-size:2rem;
+            margin:40px 0;
+            color:#333;
+            margin-left: 40px;
+        }
+
+        #listings{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:28px;
+        }
+
+        .card{
+            background:white;
+            border-radius:18px;
+            padding:18px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.06);
+            transition:0.25s ease;
+
+            opacity:0;
+            transform:translateY(30px);
+            animation:cardReveal 0.9s ease forwards;
+        }
+
+        @keyframes cardReveal{
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        .card:hover{
+            transform:translateY(-6px);
+            box-shadow:0 14px 35px rgba(0,0,0,0.12);
+        }
+
+
+        /* CARD HEADER */
+
+        .card-header{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .avatar{
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            object-fit:cover;
+        }
+
+        .vehicle{
+            font-size:0.85rem;
+            color:#777;
+        }
+
+        .renter{
+            font-weight:600;
+        }
+
+
+        /* IMAGE */
+
+        .card img.space{
+            width:100%;
+            height:150px;
+            object-fit:cover;
+            border-radius:12px;
+            margin-top:12px;
+        }
+
+
+        /* DETAILS */
+
+        .location{
+            font-size:0.9rem;
+            color:#666;
+            margin-top:10px;
+        }
+
+        .price{
+            margin-top:14px;
+            font-weight:700;
+            font-size:1.25rem;
+            color:purple;
+        }
+
+        .loading{
+            grid-column:1/-1;
+            text-align:center;
+            font-size:1.2rem;
+        }
+
+        .separator{
+            margin-top: 3em;
+            height: 2px;
+            margin: 30px 40px;
+            background-color: purple;
+        }
+
+        .new-space{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .add-space{
+            background: purple;
+            color: white;
+            border: none;
+            padding: 6px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-right: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .add-space:hover{
+            transform: scale(1.1);
+            box-shadow: 3px 3px 10px gray;
+        }
+    </style>
+</head>
+<body>
+
+<div class="booking-container">
+    <div class="info-panel">
+        <div class="image-placeholder">
+            <img src="https://via.placeholder.com/400x250" alt="Parking Space">
+        </div>
+        <div class="info-content">
+            <p class="category">PARKING SPACE</p>
+            <h1>NIT Warangal-Country Oven</h1>
+            <p class="price"><strong>$150.00</strong> / 60 min</p>
+            <p class="tagline">Experience safety and security</p>
+            <ul class="features">
+                <li>✓ Protected parking space</li>
+                <li>✓ Camera security</li>
+                <li>✓ Insurance</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-panel">
+        <h2>Complete Your Booking</h2>
+        <p class="subtitle">Select a date and time that works for you.</p>
+
+        <form action="#">
+            <div class="input-group">
+                <label>Select Date</label>
+                <input type="date" placeholder="dd-mm-yyyy">
+            </div>
+
+            <div class="time-slots">
+                <label>Available Times</label>
+                <div class="slots-grid">
+                    <button type="button" class="slot">09:00 AM - 10:00 AM</button>
+                    <button type="button" class="slot">10:30 AM - 11:30 AM</button>
+                    <button type="button" class="slot">01:00 PM - 05:00 PM</button>
+                    <button type="button" class="slot">07:00 PM - 10:00 PM</button>
+                </div>
+            </div>
+
+            <div class="name-row">
+                <div class="input-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="First Name">
+                </div>
+                <div class="input-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Last Name">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="jane@example.com">
+            </div>
+
+            <button type="submit" class="submit-btn">Confirm Booking & Pay</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</div>
+
+</body>
+</html>
