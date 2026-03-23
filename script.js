@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const params = new URLSearchParams(window.location.search);
     const spaceId = params.get('id');
+    let currentRate = 0; // CHANGE 1: Variable to store the rate globally
 
     if(!spaceId){
         console.error("No Parking ID Found!");
@@ -25,6 +26,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.querySelector('.price strong').textContent = `₹${spot.rate}`;
         document.querySelector('.image-placeholder img').src = spot.image;
         document.querySelector('.tagline').textContent = `Vehcile Type: ${spot.vehicle_type}`;
+        
+        currentRate = spot.rate; // CHANGE 2: Save the rate from the database
     }
 
     const slots = document.querySelectorAll(".slot");
@@ -92,6 +95,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (error) {
             alert("Error: " + error.message);
         } else {
+            // CHANGE 3: Store the rate in localStorage for the Payment page
+            localStorage.setItem('bookingAmount', currentRate);
+
             form.style.transition = "opacity 0.5s ease";
             form.style.opacity = 0;
 
@@ -102,14 +108,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 form.style.opacity = 1;
 
-                messageEl.innerText = "Booking successful!";
+                messageEl.innerText = "Booking successful! Redirecting to payment...";
                 messageEl.style.top = "20px"; 
                 messageEl.style.opacity = 1;
 
                 setTimeout(() => {
-                    messageEl.style.top = "-50px";
-                    messageEl.style.opacity = 0;
-                }, 2000);
+                    // CHANGE 4: Redirect to the payment page automatically
+                    window.location.href = "Payment/Payment.html"; 
+                }, 1500);
             }, 500);
         }
     });
