@@ -5,15 +5,16 @@ const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 const payBtn = document.getElementById('payBtn');
 const amountInput = document.getElementById('amountInput');
 
-// --- NEW CODE: GET AMOUNT FROM BOOKING PAGE ---
+// --- STEP 1: AUTO-FILL THE AMOUNT ON LOAD ---
 document.addEventListener("DOMContentLoaded", () => {
+    // Get the amount we saved in the booking script
     const savedAmount = localStorage.getItem('bookingAmount');
+    
     if (savedAmount && amountInput) {
         amountInput.value = savedAmount;
-        amountInput.readOnly = true; // Prevents the user from changing the price
+        amountInput.readOnly = true; // Locks the field so users can't change the price
     }
 });
-// ----------------------------------------------
 
 payBtn.addEventListener('click', async () => {
     const amount = amountInput.value;
@@ -35,14 +36,11 @@ payBtn.addEventListener('click', async () => {
     payBtn.disabled = true;
 
     try {
-        // 1. Generate a random Booking ID
         const generatedBookingId = crypto.randomUUID();
 
-        // 2. Get the current session
         const { data: { session }, error: sessionError } = await _supabase.auth.getSession();
         if (sessionError) throw sessionError;
 
-        // 3. Insert data into the table
         const { data, error } = await _supabase
             .from('Payment')
             .insert([
@@ -58,11 +56,10 @@ payBtn.addEventListener('click', async () => {
 
         if (error) throw error;
 
-        // Success Alert with the ID included
         alert(`Payment of ₹${amount} recorded successfully!\nBooking ID: ${generatedBookingId}`);
         
-        // Clear storage after successful payment
-        localStorage.removeItem('bookingAmount');
+        // --- STEP 2: CLEANUP ---
+        localStorage.removeItem('bookingAmount'); // Clear it so it doesn't stay for next time
         amountInput.value = "";
 
     } catch (err) {
