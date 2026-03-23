@@ -256,9 +256,27 @@
             </div>
 
             <button type="submit" class="submit-btn">Confirm Booking & Pay</button>
-            <button type="button" class="review-btn" onclick="window.open('https://thesophisticated.github.io/ParkShare/reviewsystem.html', '_blank')">Leave a Review</button>
+            <button type="button" class="review-btn" id="reviewBtn">
+                Leave a Review
+            </button>
         </form>
     </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const uuid = params.get("uuid");
+
+        const reviewBtn = document.getElementById("reviewBtn");
+
+        reviewBtn.addEventListener("click", () => {
+            if (uuid) {
+                const reviewUrl = `https://thesophisticated.github.io/ParkShare/reviewsystem.html?uuid=${uuid}`;
+                window.open(reviewUrl, "_blank");
+            } 
+            else {
+                alert("No UUID found in URL");
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </div>
