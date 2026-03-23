@@ -47,7 +47,7 @@ async function init() {
 
         rankedData.sort((a, b) => b.matchScore - a.matchScore);
 
-        // 5. Render to the page
+
         renderResults(rankedData);
 
     } catch (err) {

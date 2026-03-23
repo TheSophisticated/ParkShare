@@ -58,7 +58,6 @@ async function showResults(data){
             const address = encodeURIComponent(place.display_name);
 
             window.location.href = `results.html?lat=${lat}&lon=${lon}&addr=${address}`;  
-            // resultRegion.innerHTML = '';
         });
 
         resultRegion.appendChild(container);

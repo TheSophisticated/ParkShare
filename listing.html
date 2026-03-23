@@ -269,6 +269,19 @@ body{
 .listings_heading{
     margin-top: 5px;
 }
+
+.logout-btn{
+    background: purple;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 1rem;
+}
 </style>
 </head>
 
@@ -289,12 +302,13 @@ body{
         <div class = "logo"><a href="index.html">ParkShare</a></div>
 
         <div class ="booking_renting">
-            <div class = "bookOption"><img src = "images/booking_b.png" class = "image_br"><a href="listing.html" style="color: purple;">Book</a></div>
+            <div class = "bookOption"><img src = "images/booking.png" class = "image_br"><a href="listing.html">Book</a></div>
             <div class = "rentOption"> <img src = "images/rent.png" class = "image_br"><a href="rentPage.html">Rent</a> </div>
         </div>
 
         <div class="login">
-            <img src = "images/profile.png" class = "image_br" ><a href="#">Login/Signup</a>
+            <img src = "images/profile.png" class = "image_br" ><a href="login.html" id="login-link">Login/Signup</a>
+            <input type="button" value="Log Out" class="logout-btn" id="logout-btn">
         </div>
     </div>
 
@@ -439,6 +453,8 @@ body{
     </div>
 
     <script type="module" src="search.js"></script>
+    <script type="module" src="auth.js"></script>
+
 
 </body>
 </html>
