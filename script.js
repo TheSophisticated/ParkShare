@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // Fetch spot details
     const {data: spot, error: fetchError} = await supabase
         .from('parking_spaces')
         .select('*')
@@ -26,12 +25,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.querySelector('.price strong').textContent = `₹${spot.rate}`;
         document.querySelector('.image-placeholder img').src = spot.image;
         document.querySelector('.tagline').textContent = `Vehicle Type: ${spot.vehicle_type}`;
-        
-        // This is the value that will be passed to Payment.html
         currentRate = spot.rate; 
     }
 
-    // Handle Slot Selection
     const slots = document.querySelectorAll(".slot");
     let selectedTime = "";
 
@@ -43,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-    // Setup Success Message UI
+    
     const messageEl = document.createElement("div");
     messageEl.classList.add("success-message");
     Object.assign(messageEl.style, {
@@ -61,14 +57,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     document.body.appendChild(messageEl);
 
-    // Form Submission
+   
     const form = document.querySelector("form");
     const submitBtn = form.querySelector('button[type="submit"]');
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Check login status
+       
         const {data: {session}, userError} = await supabase.auth.getSession();
         if (userError || !session) {
             alert("You must be logged in to make a booking!");
@@ -86,10 +82,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Disable button to prevent double-click
         if(submitBtn) submitBtn.disabled = true;
 
-        const { error } = await supabase
+        const { error: bookingError } = await supabase
             .from("bookings")
             .insert([{   
                 parking_id: spaceId,
@@ -101,27 +96,41 @@ document.addEventListener("DOMContentLoaded", async () => {
                 email: email
             }]);
 
-        if (error) {
-            alert("Error: " + error.message);
+        if (bookingError) {
+            if(bookingError.code === '23505'){
+                alert("Sorry! This time slot has already been booked by someone else. Please choose a different time or date.");
+            } else{
+                alert("Booking Error: " + bookingError.message);
+            }
             if(submitBtn) submitBtn.disabled = false;
-        } else {
-            // Save rate to localStorage for the Payment page
-            localStorage.setItem('bookingAmount', currentRate);
+            return;
+        }
 
-            // Visual feedback
-            form.style.transition = "opacity 0.5s ease";
-            form.style.opacity = 0;
+        
+        const { error: updateError } = await supabase
+            .from('parking_spaces')
+            .update({ last_booked: new Date().toISOString() })
+            .eq('parking_id', spaceId);
+
+        if (updateError) {
+            console.error("Failed to update last_booked status:", updateError);
+            
+        }
+
+        
+        localStorage.setItem('bookingAmount', currentRate);
+
+        form.style.transition = "opacity 0.5s ease";
+        form.style.opacity = 0;
+
+        setTimeout(() => {
+            messageEl.innerText = "Booking successful! Redirecting to payment...";
+            messageEl.style.top = "20px"; 
+            messageEl.style.opacity = 1;
 
             setTimeout(() => {
-                messageEl.innerText = "Booking successful! Redirecting to payment...";
-                messageEl.style.top = "20px"; 
-                messageEl.style.opacity = 1;
-
-                // Automatic Forwarding to Payment.html
-                setTimeout(() => {
-                    window.location.href = "Payment/Payment.html"; 
-                }, 1500);
-            }, 500);
-        }
+                window.location.href = "Payment/Payment.html"; 
+            }, 1500);
+        }, 500);
     });
 });
