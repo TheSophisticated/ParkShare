@@ -261,9 +261,10 @@
             </button>
         </form>
     </div>
+    
     <script>
         const params = new URLSearchParams(window.location.search);
-        const uuid = params.get("uuid");
+        const uuid = params.get("id");
 
         const reviewBtn = document.getElementById("reviewBtn");
 
@@ -273,7 +274,7 @@
                 window.open(reviewUrl, "_blank");
             } 
             else {
-                alert("No UUID found in URL");
+                alert("No ID found in URL");
             }
         });
     </script>
