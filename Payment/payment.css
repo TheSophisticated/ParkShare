@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #dee3e4, #cdd8dc, #c4cdd1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.background-blur {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #2c3f4555, transparent);
+    top: -100px;
+    left: -100px;
+    filter: blur(80px);
+}
+
+.card {
+    position: relative;
+    width: 380px;
+    padding: 35px;
+    background: rgba(0, 0, 0, 0.667);
+    backdrop-filter: blur(20px);
+    border-radius: 0px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    color: rgb(235, 233, 233);
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.logo span {
+    color: #00c6ff;
+}
+
+.amount-box label {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    background: rgba(255,255,255,0.12);
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+.rupee {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+input[type="number"] {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+    width: 100%;
+}
+
+.methods {
+    margin-top: 30px;
+}
+
+.method-title {
+    font-size: 14px;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+
+.method-option {
+    margin-bottom: 12px;
+}
+
+.method-option input {
+    display: none;
+}
+
+.method-option label {
+    display: block;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.method-option label:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.method-option input:checked + label {
+    border: 1px solid #00c6ff;
+    background: rgba(0,198,255,0.15);
+}
+
+.method-name {
+    font-weight: 500;
+}
+
+.method-desc {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+.pay-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,114,255,0.4);
+}
+
+.secure-note {
+    margin-top: 15px;
+    font-size: 12px;
+    opacity: 0.6;
+    text-align: center;
+}
