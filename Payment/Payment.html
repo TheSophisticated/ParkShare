@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CampusPay</title>
+    <link rel="stylesheet" href="payment.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="background-blur"></div>
+
+<div class="card">
+    <div class="logo"><span>Payment</span></div>
+
+    <div class="amount-box">
+        <label>Amount</label>
+        <div class="input-wrapper">
+            <span class="rupee">₹</span>
+            <input type="number" id="amountInput" placeholder="0.00">
+        </div>
+    </div>
+
+    <div class="methods">
+        <p class="method-title">Choose Payment Method</p>
+
+        <div class="method-option">
+            <input type="radio" name="method" id="upi" checked>
+            <label for="upi">
+                <div class="method-name">UPI</div>
+                <div class="method-desc">Pay via Google Pay, PhonePe, Paytm</div>
+            </label>
+        </div>
+
+        <div class="method-option">
+            <input type="radio" name="method" id="card">
+            <label for="card">
+                <div class="method-name">Card</div>
+                <div class="method-desc">Visa, Mastercard, RuPay</div>
+            </label>
+        </div>
+    </div>
+
+    <button class="pay-btn" id="payBtn">Pay Securely</button>
+
+    <div class="secure-note">
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
