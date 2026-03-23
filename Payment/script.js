@@ -5,6 +5,16 @@ const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 const payBtn = document.getElementById('payBtn');
 const amountInput = document.getElementById('amountInput');
 
+// --- NEW CODE: GET AMOUNT FROM BOOKING PAGE ---
+document.addEventListener("DOMContentLoaded", () => {
+    const savedAmount = localStorage.getItem('bookingAmount');
+    if (savedAmount && amountInput) {
+        amountInput.value = savedAmount;
+        amountInput.readOnly = true; // Prevents the user from changing the price
+    }
+});
+// ----------------------------------------------
+
 payBtn.addEventListener('click', async () => {
     const amount = amountInput.value;
 
@@ -40,7 +50,7 @@ payBtn.addEventListener('click', async () => {
                     amount: parseFloat(amount),
                     payment_method: method,
                     status: 'paid', 
-                    booking_id: generatedBookingId, // New random ID added here
+                    booking_id: generatedBookingId, 
                     user_id: session ? session.user.id : null, 
                     create_at: new Date().toISOString() 
                 }
@@ -50,6 +60,9 @@ payBtn.addEventListener('click', async () => {
 
         // Success Alert with the ID included
         alert(`Payment of ₹${amount} recorded successfully!\nBooking ID: ${generatedBookingId}`);
+        
+        // Clear storage after successful payment
+        localStorage.removeItem('bookingAmount');
         amountInput.value = "";
 
     } catch (err) {
