@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Bitcount+Single:wght@100..900&family=Bungee&family=Overpass:ital,wght@0,100..900;1,100..900&family=Varela+Round&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ParkShare</title>
+
+    <link rel="icon" href = "logo." type = "image/x-icon">
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <style>
+        header { 
+            text-align: center; 
+            padding: 50px 0; 
+            background: #ffffff; 
+            border-radius: 15px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            margin-bottom: 30px; 
+        }
+        h1 { 
+            margin: 0; 
+            color: purple; 
+            font-size: 2.5rem; 
+        }
+        
+        #listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: 0.3s; margin-bottom: 50px;}
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 200px; object-fit: cover; background-color: #eee; }
+        .card-content { padding: 20px; }
+        .tag { background: #ecfdf5; color: #059669; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+        .renter { font-size: 1.1rem; margin: 10px 0 5px 0; font-weight: 600; }
+        .price { font-size: 1.4rem; color:purple; font-weight: 800; margin-top: 15px; }
+        .loading { text-align: center; font-size: 1.2rem; grid-column: 1 / -1; }
+    </style>
+
+
+<style>
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+    font-family:'Overpass',sans-serif;
+}
+
+body{
+    background:#F2F3F2;
+}
+
+
+
+
+/* PAGE TITLE */
+
+.list{
+    max-width:1200px;
+    margin:auto;
+}
+
+.listings_heading{
+    font-size:2rem;
+    margin:40px 0;
+    color:#333;
+}
+
+
+/* GRID */
+
+#listings{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+}
+
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.06);
+    transition:0.25s ease;
+
+    opacity:0;
+    transform:translateY(30px);
+    animation:cardReveal 0.9s ease forwards;
+}
+
+@keyframes cardReveal{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 14px 35px rgba(0,0,0,0.12);
+}
+
+
+/* CARD HEADER */
+
+.card-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.vehicle{
+    font-size:0.85rem;
+    color:#777;
+}
+
+.renter{
+    font-weight:600;
+}
+
+
+/* IMAGE */
+
+.card img.space{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-top:12px;
+}
+
+
+/* DETAILS */
+
+.location{
+    font-size:0.9rem;
+    color:#666;
+    margin-top:10px;
+}
+
+.price{
+    margin-top:14px;
+    font-weight:700;
+    font-size:1.25rem;
+    color:purple;
+}
+
+.loading{
+    grid-column:1/-1;
+    text-align:center;
+    font-size:1.2rem;
+}
+
+
+
+.footer{
+    background:#f4f5f4;
+    margin-top:80px;
+    padding-top:70px;
+    padding-bottom: 40px;
+}
+
+.footer-container{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+
+/* LEFT SIDE */
+
+.footer-logo{
+    font-size:28px;
+    font-weight:700;
+    color:#2f3b35;
+    margin-bottom:20px;
+}
+
+.copyright{
+    color:#6f7f76;
+    line-height:1.6;
+    font-size:16px;
+}
+
+
+/* RIGHT SIDE */
+
+.footer-links{
+    display:flex;
+    gap:120px;
+}
+
+.footer-column{
+    display:flex;
+    flex-direction:column;
+}
+
+.footer-column h3{
+    font-size:20px;
+    margin-bottom:25px;
+    color:#5d6f66;
+}
+
+.footer-column a{
+    text-decoration:none;
+    color:#6f8077;
+    font-weight:600;
+    margin-bottom:18px;
+    letter-spacing:1px;
+    transition:0.2s;
+}
+
+.footer-column a:hover{
+    color:black;
+}
+
+.logout-btn{
+    background: purple;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 1rem;
+}
+
+.input-location-bar{
+    z-index: 2000;
+}
+
+
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.5);
+
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+</head>
+<body>
+    <div id="search-overlay" class="search-overlay hidden">
+        <div id="search-region" class="search-region">
+            <input type="text" placeholder="Location" id="auto-search-input" class = "input-location-bar">
+            <div id="results-list"></div>
+        </div>
+    </div>
+    <!-- HEADING OF PARKSHARE -->
+    <div class = "heading">
+        <!-- <img src="logo.png" class="logo"> -->
+
+        <div class = "logo"><a href="index.html">ParkShare</a></div>
+
+        <div class ="booking_renting">
+            <div class = "bookOption"><img src = "images/booking.png" class = "image_br"><a href="listing.html">Book</a></div>
+            <div class = "rentOption"> <img src = "images/rent.png" class = "image_br"><a href="rentPage.html">Rent</a> </div>
+        </div>
+
+        <div class="login">
+            <img src = "images/profile.png" class = "image_br" ><a href="login.html" id="login-link">Login/Signup</a>
+            <input type="button" value="Log Out" class="logout-btn" id="logout-btn">
+        </div>
+    </div>
+
+
+
+    <!-- Opening Page of ParkShare -->
+    <div class ="first_page">
+        <!-- <div class="location"><input type="text" placeholder="Location"></div> -->
+
+        <div class = "location" id="search-bar"> 
+                <input type="text" placeholder="Location" class = "input_location">
+                <img src="images/location_icon.png" class = "location_icon">
+
+                <h1 class = "qoute">Where Parking Meets Convenience </h1>
+                <p class = "working">One seamless platform to book Parking and Rent your Space </p>
+        </div>
+        
+        <div class="cool"><img src="images/bg.png" class= "bg"></div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- Booking Page -->
+    <div class = "booking_page">
+        <div class = "book_parking" style="padding-bottom: 30px;">
+            <h1 class = "book_text">Book Parking</h1>
+            <a href = "listing.html">SEE ALL PARKING ></a>
+        </div>
+
+        
+        <div id="listings">
+            <p class="loading">Fetching parking spaces...</p>
+        </div>
+
+        <script>
+            const SUPABASE_URL = 'https://wbtzkgpkcigqaecdjlbn.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8';
+            
+            const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            async function loadSpaces() {
+                const listDiv = document.getElementById('listings');
+
+                const { data, error } = await _supabase.from('parking_spaces').select('*');
+
+                if (error) {
+                    console.error("Error:", error);
+                    listDiv.innerHTML = `<p>Error connecting: ${error.message}</p>`;
+                    return;
+                }
+
+                listDiv.innerHTML = '';
+
+                data.slice(0, 3).forEach(item => {
+                    const card = `
+                        <div class="card">
+                            <img src="${item.image}" alt="Parking Space">
+                            <div class="card-content">
+                                <p class="tag">${item.vehicle_type}</p>
+                                <h3 class="renter">${item.renter_name}'s Space</h3>
+                                <p class="price">₹${item.rate}
+                                    <span style="font-size: 0.8rem; font-weight: normal; color: #666;">
+                                        /hour
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    listDiv.innerHTML += card;
+                });
+            }
+
+            loadSpaces();
+        </script>
+    </div>
+
+
+
+
+
+
+
+
+
+
+<!-- FAQS SECTION  -->
+<div class="faq_section">
+
+    <h2 class="faq_title">Frequently Asked Questions</h2>
+
+    <div class="faq_list">
+
+        <div class="faq_item">
+            <button class="faq_question">
+                <span>How does ParkShare work?</span>
+                <span class="faq_icon">⌄</span>
+            </button>
+            <div class="faq_answer">
+                ParkShare connects drivers with people who have unused parking spaces. 
+                Simply search for a location, choose an available space, and book it instantly.
+            </div>
+        </div>
+
+        <div class="faq_item">
+            <button class="faq_question">
+                <span>How do I book a parking space?</span>
+                <span class="faq_icon">⌄</span>
+            </button>
+            <div class="faq_answer">
+                Enter a location, browse available spaces, select the one that fits your needs, 
+                and confirm your booking through the platform.
+            </div>
+        </div>
+
+        <div class="faq_item">
+            <button class="faq_question">
+                <span>Can I rent out my parking space?</span>
+                <span class="faq_icon">⌄</span>
+            </button>
+            <div class="faq_answer">
+                Yes. If you have unused parking space, you can list it on ParkShare 
+                and earn money whenever someone books it.
+            </div>
+        </div>
+
+        <div class="faq_item">
+            <button class="faq_question">
+                <span>Is my vehicle safe?</span>
+                <span class="faq_icon">⌄</span>
+            </button>
+            <div class="faq_answer">
+                Many parking spots are located inside residential areas or private properties, 
+                making them safer than public street parking.
+            </div>
+        </div>
+
+        <div class="faq_item">
+            <button class="faq_question">
+                <span>Can I cancel a booking?</span>
+                <span class="faq_icon">⌄</span>
+            </button>
+            <div class="faq_answer">
+                Yes, bookings can be cancelled depending on the host’s cancellation policy.
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const faqItems = document.querySelectorAll(".faq_item");
+
+faqItems.forEach(item => {
+
+    const btn = item.querySelector(".faq_question");
+    const answer = item.querySelector(".faq_answer");
+
+    btn.addEventListener("click", () => {
+
+        faqItems.forEach(i => {
+            if(i !== item){
+                i.classList.remove("active");
+                i.querySelector(".faq_answer").style.maxHeight = null;
+            }
+        });
+
+        item.classList.toggle("active");
+
+        if(answer.style.maxHeight){
+            answer.style.maxHeight = null;
+        } else {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+
+    });
+
+});
+</script>
+
+
+
+
+
+<div class="about_platform">
+
+    <div class="platform_grid">
+
+        <div class="platform_block">
+            <h2>Why ParkShare?</h2>
+            <p>
+                ParkShare is built to solve one of the most common urban problems — 
+                finding parking quickly and reliably. Our platform connects drivers 
+                with people who have unused parking spaces, creating a convenient 
+                and efficient parking ecosystem. With transparent pricing and easy 
+                booking, parking becomes simple and stress-free.
+            </p>
+        </div>
+
+        <div class="platform_block">
+            <h2>Booking Parking with ParkShare</h2>
+            <p>
+                With ParkShare you can discover nearby parking spaces within seconds. 
+                Simply search for your location, browse available listings, and book 
+                the spot that fits your needs. Whether you're visiting a busy area 
+                or planning ahead, ParkShare ensures you always have a place to park.
+            </p>
+        </div>
+
+        <div class="platform_block">
+            <h2>Rent Your Parking Space</h2>
+            <p>
+                Have an unused parking spot? Turn it into income. ParkShare allows 
+                property owners to list their available spaces and earn money by 
+                renting them out. It's a simple way to make better use of unused 
+                space while helping drivers find parking.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-left">
+
+            <div class="footer-logo">
+                ParkShare
+            </div>
+
+            <p class="copyright">
+                © 2026 ParkShare Technologies Pvt. Ltd.<br>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <div class="footer-column">
+                <h3>Company</h3>
+                <a href="#">ABOUT US</a>
+                <a href="#">BLOGS</a>
+                <a href="#">CONTACT</a>
+                <a href="#">CAREERS</a>
+                <a href="#">PARTNER WITH US</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Social</h3>
+                <a href="#">INSTAGRAM</a>
+                <a href="#">FACEBOOK</a>
+                <a href="#">LINKEDIN</a>
+                <a href="#">TWITTER</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+        <!-- Social Media -->
+        <div class = "Socials">
+            <a href = "#"><img src = "images/yt.jpg" class = "yt"></a>
+            <a href = "#"><img src = "images/ig.png" class = "ig"></a>
+            <a href = "#"><img src = "images/fb.jpg" class = "fb"></a>
+            <a href = "#"><img src = "images/linkedin.jpg" class = "ld"></a>
+
+        </div>  
+    <script type="module" src="search.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script>
+        async function updateLoginUI() {
+  const { data: { user } } = await _supabase.auth.getUser();
+
+  const loginLink = document.getElementById("login-link");
+
+  if (user) {
+    loginLink.innerText = user.email; 
+    loginLink.href = "userdashboard.html";
+  } else {
+    loginLink.innerText = "Login/Signup";
+    loginLink.href = "login.html";
+  }
+}
+
+updateLoginUI();
+    </script>
+</body>
+</html>
