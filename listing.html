@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parking Spaces</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Bitcount+Single:wght@100..900&family=Bungee&family=Overpass:ital,wght@0,100..900;1,100..900&family=Varela+Round&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+    font-family:'Overpass',sans-serif;
+}
+
+body{
+    background:#F2F3F2;
+}
+
+
+
+
+/* PAGE TITLE */
+
+.list{
+    max-width:1200px;
+    margin:auto;
+}
+
+.listings_heading{
+    font-size:2rem;
+    margin:40px 0;
+    color:#333;
+}
+
+
+/* GRID */
+
+#listings{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+}
+
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.06);
+    transition:0.25s ease;
+
+    opacity:0;
+    transform:translateY(30px);
+    animation:cardReveal 0.9s ease forwards;
+}
+
+@keyframes cardReveal{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 14px 35px rgba(0,0,0,0.12);
+}
+
+
+/* CARD HEADER */
+
+.card-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.vehicle{
+    font-size:0.85rem;
+    color:#777;
+}
+
+.renter{
+    font-weight:600;
+}
+
+
+/* IMAGE */
+
+.card img.space{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-top:12px;
+}
+
+
+/* DETAILS */
+
+.location{
+    font-size:0.9rem;
+    color:#666;
+    margin-top:10px;
+}
+
+.price{
+    margin-top:14px;
+    font-weight:700;
+    font-size:1.25rem;
+    color:purple;
+}
+
+.loading{
+    grid-column:1/-1;
+    text-align:center;
+    font-size:1.2rem;
+}
+
+
+
+.footer{
+    background:#f4f5f4;
+    margin-top:80px;
+    padding-top:70px;
+    padding-bottom: 40px;
+}
+
+.footer-container{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+
+/* LEFT SIDE */
+
+.footer-logo{
+    font-size:28px;
+    font-weight:700;
+    color:#2f3b35;
+    margin-bottom:20px;
+}
+
+.copyright{
+    color:#6f7f76;
+    line-height:1.6;
+    font-size:16px;
+}
+
+
+/* RIGHT SIDE */
+
+.footer-links{
+    display:flex;
+    gap:120px;
+}
+
+.footer-column{
+    display:flex;
+    flex-direction:column;
+}
+
+.footer-column h3{
+    font-size:20px;
+    margin-bottom:25px;
+    color:#5d6f66;
+}
+
+.footer-column a{
+    text-decoration:none;
+    color:#6f8077;
+    font-weight:600;
+    margin-bottom:18px;
+    letter-spacing:1px;
+    transition:0.2s;
+}
+
+.footer-column a:hover{
+    color:black;
+}
+
+
+.location{
+    font-size:0.9rem;
+    color:#666;
+    margin-top:10px;
+}
+
+.price{
+    margin-top:14px;
+    font-weight:700;
+    font-size:1.25rem;
+    color:purple;
+}
+
+.loading{
+    grid-column:1/-1;
+    text-align:center;
+    font-size:1.2rem;
+}
+
+
+.input_location_listing{
+    background-color: white;
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: white;
+    width: 15rem;
+    height: 2.8rem;
+    text-align: center;
+
+    margin-top: 5px;
+
+    font-family: "Varela Round", sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+
+
+.location_icon_listing{
+    display: inline;
+    width: 50px;
+    height: auto;
+    vertical-align: top;
+
+    transition: all 0.3s;
+}
+
+.location_icon_listing:hover{
+    width: 55px;
+}
+
+.location_listing{
+    padding-left: 50%;
+    
+}
+
+
+.location_bar{
+    margin-top: 50px;
+    margin-bottom: 70px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+.listings_heading{
+    margin-top: 5px;
+}
+
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.5);
+
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+    <div id="search-overlay" class="search-overlay hidden">
+        <div id="search-region" class="search-region">
+            <input type="text" placeholder="Location" id="auto-search-input" class = "input-location-bar">
+            <div id="results-list"></div>
+        </div>
+    </div>
+
+    <div class = "heading">
+        <!-- <img src="logo.png" class="logo"> -->
+
+        <div class = "logo"><a href="index.html">ParkShare</a></div>
+
+        <div class ="booking_renting">
+            <div class = "bookOption"><img src = "images/booking_b.png" class = "image_br"><a href="listing.html" style="color: purple;">Book</a></div>
+            <div class = "rentOption"> <img src = "images/rent.png" class = "image_br"><a href="rentPage.html">Rent</a> </div>
+        </div>
+
+        <div class="login">
+            <img src = "images/profile.png" class = "image_br" ><a href="#">Login/Signup</a>
+        </div>
+    </div>
+
+
+    <!-- LISTINGS -->
+
+    <div class="list">
+
+    <div class = "location_bar">
+        <h1 class="listings_heading">Parking Spaces in Location</h1>
+
+        <!-- Location Enter -->
+
+        <div class = "location_listing" id="search-bar"> 
+            <input type="text" placeholder="Location" class = "input_location_listing">
+            <img src="images/location_icon.png" class = "location_icon_listing">
+        </div>
+
+    </div>
+
+    <div id="listings">
+    <p class="loading">Fetching parking spaces...</p>
+    </div>
+
+    </div>
+
+
+    <script>
+
+    const SUPABASE_URL = 'https://wbtzkgpkcigqaecdjlbn.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHprZ3BrY2lncWFlY2RqbGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2NDk2MTgsImV4cCI6MjA4MjIyNTYxOH0.4ZZO81-Uwdvjjvd_GR-aNyqrgT15XOJhSMAzp8LsPv8';
+
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+    async function loadSpaces(){
+
+        const listDiv = document.getElementById("listings");
+
+        const {data,error} = await _supabase
+            .from('parking_spaces')
+            .select('*');
+
+        if(error){
+            console.error(error);
+            listDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            return;
+        }
+
+        listDiv.innerHTML = '';
+
+        data.forEach((item,index)=>{
+
+            const card = `
+            <div class="card" style="animation-delay:${index*0.15}s">
+
+                <div class="card-header">
+
+                    <img class="avatar" src = "images/profile.png">
+
+                    <div>
+                        <div class="vehicle">${item.vehicle_type}</div>
+                        <div class="renter">${item.renter_name}</div>
+                    </div>
+
+                </div>
+
+                <img class="space" src="${item.image}" alt="Parking Space">
+
+                <div class="location">
+                    📍 Parking space available
+                </div>
+
+                <div class="price">
+                    ₹${item.rate} <span style="font-size:0.8rem;color:#777;">/hour</span>
+                </div>
+
+            </div>
+            `;
+
+            listDiv.innerHTML += card;
+
+        });
+
+    }
+
+    loadSpaces();
+
+    </script>
+
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-left">
+
+            <div class="footer-logo">
+                ParkShare
+            </div>
+
+            <p class="copyright">
+                © 2026 ParkShare Technologies Pvt. Ltd.<br>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <div class="footer-column">
+                <h3>Company</h3>
+                <a href="#">ABOUT US</a>
+                <a href="#">BLOGS</a>
+                <a href="#">CONTACT</a>
+                <a href="#">CAREERS</a>
+                <a href="#">PARTNER WITH US</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Social</h3>
+                <a href="#">INSTAGRAM</a>
+                <a href="#">FACEBOOK</a>
+                <a href="#">LINKEDIN</a>
+                <a href="#">TWITTER</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+    <!-- Social Media -->
+    <div class = "Socials">
+        <a href = "#"><img src = "images/yt.jpg" class = "yt"></a>
+        <a href = "#"><img src = "images/ig.png" class = "ig"></a>
+        <a href = "#"><img src = "images/fb.jpg" class = "fb"></a>
+        <a href = "#"><img src = "images/linkedin.jpg" class = "ld"></a>
+
+    </div>
+
+    <script type="module" src="search.js"></script>
+
+</body>
+</html>
