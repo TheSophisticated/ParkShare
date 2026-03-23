@@ -5,31 +5,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const params = new URLSearchParams(window.location.search);
     const spaceId = params.get('id');
-    let currentRate = 0; // CHANGE 1: Variable to store the rate globally
+    let currentRate = 0; 
 
     if(!spaceId){
         console.error("No Parking ID Found!");
         return;
     }
 
+    // Fetch spot details
     const {data: spot, error: fetchError} = await supabase
-    .from('parking_spaces')
-    .select('*')
-    .eq('parking_id', spaceId)
-    .single();
+        .from('parking_spaces')
+        .select('*')
+        .eq('parking_id', spaceId)
+        .single();
 
     if(fetchError){
         console.error("Error Fetching Spot: ", fetchError);
-    }
-    else if(spot){
+    } else if(spot){
         document.querySelector('.info-content h1').textContent = `${spot.renter_name}'s Spot`;
         document.querySelector('.price strong').textContent = `₹${spot.rate}`;
         document.querySelector('.image-placeholder img').src = spot.image;
-        document.querySelector('.tagline').textContent = `Vehcile Type: ${spot.vehicle_type}`;
+        document.querySelector('.tagline').textContent = `Vehicle Type: ${spot.vehicle_type}`;
         
-        currentRate = spot.rate; // CHANGE 2: Save the rate from the database
+        // This is the value that will be passed to Payment.html
+        currentRate = spot.rate; 
     }
 
+    // Handle Slot Selection
     const slots = document.querySelectorAll(".slot");
     let selectedTime = "";
 
@@ -41,25 +43,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-
+    // Setup Success Message UI
     const messageEl = document.createElement("div");
     messageEl.classList.add("success-message");
-    messageEl.style.position = "fixed";
-    messageEl.style.top = "-50px"; 
-    messageEl.style.left = "50%";
-    messageEl.style.transform = "translateX(-50%)";
-    messageEl.style.padding = "10px 20px";
-    messageEl.style.backgroundColor = "#4BB543";
-    messageEl.style.color = "#fff";
-    messageEl.style.borderRadius = "5px";
-    messageEl.style.opacity = 0;
-    messageEl.style.transition = "all 0.5s ease"; 
+    Object.assign(messageEl.style, {
+        position: "fixed",
+        top: "-50px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        padding: "10px 20px",
+        backgroundColor: "#4BB543",
+        color: "#fff",
+        borderRadius: "5px",
+        opacity: 0,
+        transition: "all 0.5s ease",
+        zIndex: "1000"
+    });
     document.body.appendChild(messageEl);
 
+    // Form Submission
     const form = document.querySelector("form");
+    const submitBtn = form.querySelector('button[type="submit"]');
+
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // Check login status
         const {data: {session}, userError} = await supabase.auth.getSession();
         if (userError || !session) {
             alert("You must be logged in to make a booking!");
@@ -72,48 +81,44 @@ document.addEventListener("DOMContentLoaded", async () => {
         const lastName = document.querySelector('input[placeholder="Last Name"]').value;
         const email = document.querySelector('input[type="email"]').value;
 
-        if (!date || !firstName || !lastName || !email || !selectedTime) 
-        {
+        if (!date || !firstName || !lastName || !email || !selectedTime) {
             alert("Please fill in all fields and select a time slot.");
             return;
         }
 
-        const { data, error } = await supabase
+        // Disable button to prevent double-click
+        if(submitBtn) submitBtn.disabled = true;
+
+        const { error } = await supabase
             .from("bookings")
-            .insert([
-                {   
-                    parking_id: spaceId,
-                    user_id: session.user.id,
-                    date: date,
-                    time_slot: selectedTime,
-                    first_name: firstName,
-                    last_name: lastName,
-                    email: email
-                }
-            ]);
+            .insert([{   
+                parking_id: spaceId,
+                user_id: session.user.id,
+                date: date,
+                time_slot: selectedTime,
+                first_name: firstName,
+                last_name: lastName,
+                email: email
+            }]);
 
         if (error) {
             alert("Error: " + error.message);
+            if(submitBtn) submitBtn.disabled = false;
         } else {
-            // CHANGE 3: Store the rate in localStorage for the Payment page
+            // Save rate to localStorage for the Payment page
             localStorage.setItem('bookingAmount', currentRate);
 
+            // Visual feedback
             form.style.transition = "opacity 0.5s ease";
             form.style.opacity = 0;
 
             setTimeout(() => {
-                form.reset();
-                selectedTime = "";
-                slots.forEach(s => s.classList.remove("active"));
-
-                form.style.opacity = 1;
-
                 messageEl.innerText = "Booking successful! Redirecting to payment...";
                 messageEl.style.top = "20px"; 
                 messageEl.style.opacity = 1;
 
+                // Automatic Forwarding to Payment.html
                 setTimeout(() => {
-                    // CHANGE 4: Redirect to the payment page automatically
                     window.location.href = "Payment/Payment.html"; 
                 }, 1500);
             }, 500);
