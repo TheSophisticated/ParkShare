@@ -369,6 +369,7 @@ body{
         data.forEach((item,index)=>{
 
             const card = `
+            <a href="booking.html?id=${item.parking_id}" style="text-decoration: none; color: inherit;">
             <div class="card" style="animation-delay:${index*0.15}s">
 
                 <div class="card-header">
@@ -393,6 +394,7 @@ body{
                 </div>
 
             </div>
+            </a>
             `;
 
             listDiv.innerHTML += card;

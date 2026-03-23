@@ -360,18 +360,20 @@ body{
 
                 data.slice(0, 3).forEach(item => {
                     const card = `
-                        <div class="card">
-                            <img src="${item.image}" alt="Parking Space">
-                            <div class="card-content">
-                                <p class="tag">${item.vehicle_type}</p>
-                                <h3 class="renter">${item.renter_name}'s Space</h3>
-                                <p class="price">₹${item.rate}
-                                    <span style="font-size: 0.8rem; font-weight: normal; color: #666;">
-                                        /hour
-                                    </span>
-                                </p>
+                        <a href="booking.html?id=${item.parking_id}" style="text-decoration: none; color: inherit;">
+                            <div class="card">
+                                <img src="${item.image}" alt="Parking Space">
+                                <div class="card-content">
+                                    <p class="tag">${item.vehicle_type}</p>
+                                    <h3 class="renter">${item.renter_name}'s Space</h3>
+                                    <p class="price">₹${item.rate}
+                                        <span style="font-size: 0.8rem; font-weight: normal; color: #666;">
+                                            /hour
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     `;
                     listDiv.innerHTML += card;
                 });
