@@ -47,7 +47,6 @@ async function init() {
 
         rankedData.sort((a, b) => b.matchScore - a.matchScore);
 
-        // 5. Render to the page
         renderResults(rankedData);
 
     } catch (err) {
@@ -80,9 +79,5 @@ function renderResults(spaces) {
         </a>
     `).join('');
 }
-
-window.handleBooking = (id) => {
-    alert("Teleporting to booking for spot ID: " + id);
-};
 
 init();

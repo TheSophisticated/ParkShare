@@ -48,7 +48,6 @@ async function signup(event){
     alert(error.message);
   }
   else {
-    // 🔥 ADD THIS LINE (SAFE)
     localStorage.setItem("username", username_input);
 
     alert("Account Made! Redirecting...");
@@ -71,7 +70,6 @@ async function signIn(event) {
     alert(error.message);
   }
   else {
-    // 🔥 GET NAME FROM SUPABASE
     const name = data.user.user_metadata?.display_name;
 
     if(name){

@@ -7,7 +7,9 @@ const mainSearch = document.getElementById('auto-search-input');
 searchBar.addEventListener('click', function(){
     searchScreen.classList.remove('hidden');
     searchRegion.classList.add('activate');
-})
+
+    document.body.style.overflow = 'hidden';
+});
 
 var timer;
 const typeInterval = 500;
@@ -23,8 +25,9 @@ mainSearch.addEventListener('input', function(){
 searchScreen.addEventListener('click', function(event){
     if(event.target === searchScreen){
         searchScreen.classList.add('hidden');
+        document.body.style.overflow = 'auto';
     }
-})
+});
 
 async function getAutocomplete(){
     const query = mainSearch.value;
@@ -54,14 +57,12 @@ async function showResults(data){
 
             mainSearch.value = place.display_name;
             const lat = place.lat;
-            const lon = place.lon
+            const lon = place.lon;
             const address = encodeURIComponent(place.display_name);
 
-            window.location.href = `results.html?lat=${lat}&lon=${lon}&addr=${address}`;  
-            // resultRegion.innerHTML = '';
+            window.location.href = `results.html?lat=${lat}&lon=${lon}&addr=${address}`;
         });
 
         resultRegion.appendChild(container);
-
     });
 }

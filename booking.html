@@ -179,6 +179,24 @@
             transform: scale(1.1);
             box-shadow: 3px 3px 10px gray;
         }
+
+        .review-btn{
+            background: #555;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            transition: 0.3s;
+        }
+    
+        .review-btn:hover{
+            background: purple;
+        }
     </style>
 </head>
 <body>
@@ -238,8 +256,28 @@
             </div>
 
             <button type="submit" class="submit-btn">Confirm Booking & Pay</button>
+            <button type="button" class="review-btn" id="reviewBtn">
+                Leave a Review
+            </button>
         </form>
     </div>
+    
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const uuid = params.get("id");
+
+        const reviewBtn = document.getElementById("reviewBtn");
+
+        reviewBtn.addEventListener("click", () => {
+            if (uuid) {
+                const reviewUrl = `https://thesophisticated.github.io/ParkShare/reviewsystem.html?uuid=${uuid}`;
+                window.open(reviewUrl, "_blank");
+            } 
+            else {
+                alert("No ID found in URL");
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </div>
