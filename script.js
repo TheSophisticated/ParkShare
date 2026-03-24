@@ -28,6 +28,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentRate = spot.rate; 
     }
 
+    const dateInput = document.querySelector('input[type="date"]');
+
+    const today = new Date();
+    today.setDate(today.getDate() + 1); // next day
+
+    const minDate = today.toISOString().split("T")[0];
+    dateInput.setAttribute("min", minDate);
+    
     const slots = document.querySelectorAll(".slot");
     let selectedTime = "";
 
@@ -73,6 +81,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         const date = document.querySelector('input[type="date"]').value;
+
+        if (!date) {
+            alert("Please select a date.");
+            return;
+        }
+
+        const selectedDate = new Date(date);
+        const minAllowedDate = new Date();
+        minAllowedDate.setDate(minAllowedDate.getDate() + 1);
+        minAllowedDate.setHours(0,0,0,0);
+
+        if (selectedDate < minAllowedDate) {
+            alert("Bookings can only be made from the next day onwards.");
+            if(submitBtn) submitBtn.disabled = false;
+            return;
+        }
         const firstName = document.querySelector('input[placeholder="First Name"]').value;
         const lastName = document.querySelector('input[placeholder="Last Name"]').value;
         const email = document.querySelector('input[type="email"]').value;
