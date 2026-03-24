@@ -38,9 +38,9 @@ const avgRatingDisplay = document.getElementById('avg-rating');
 document.addEventListener('DOMContentLoaded', function() {
 
     const parkingTitle = document.getElementById('parking-title');
-
+    
     if (parkingTitle) {
-        parkingTitle.innerText = `Reviews for ${parkingId}`;
+        parkingTitle.innerText = "User Reviews";
     }
 
     loadReviews();
@@ -87,7 +87,7 @@ document.getElementById('submit-btn').addEventListener('click', async function()
         .select('*')
         .eq('user_id', userId)
         .eq('parking_id', parkingId)
-        .single();
+        .maybeSingle();
 
     if (existingReview) {
         alert("You have already submitted a review for this parking!");
