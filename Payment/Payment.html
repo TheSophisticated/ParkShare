@@ -3,6 +3,26 @@
 <head>
     <title>CampusPay</title>
     <link rel="stylesheet" href="payment.css">
+
+    <style>
+        .review-btn{
+            background: #555;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            transition: 0.3s;
+        }
+    
+        .review-btn:hover{
+            background: purple;
+        }
+    </style>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -42,11 +62,30 @@
     </div>
 
     <button class="pay-btn" id="payBtn">Pay Securely</button>
+    <button type="button" class="review-btn" id="reviewBtn">
+            Leave a Review
+    </button>
 
     <div class="secure-note">
     </div>
 </div>
 
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const uuid = params.get("id");
+
+        const reviewBtn = document.getElementById("reviewBtn");
+
+        reviewBtn.addEventListener("click", () => {
+            if (uuid) {
+                const reviewUrl = `https://thesophisticated.github.io/ParkShare/reviewsystem.html?uuid=${uuid}`;
+                window.open(reviewUrl, "_blank");
+            } 
+            else {
+                alert("No ID found in URL");
+            }
+        });
+    </script>
 <script src="script.js"></script>
 
 </body>
