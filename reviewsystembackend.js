@@ -1,5 +1,5 @@
 const params = new URLSearchParams(window.location.search);
-const parkingId = params.get('parking');
+const parkingId = params.get('uuid');
 
 if (!parkingId) {
     alert("Missing parking ID in URL");
