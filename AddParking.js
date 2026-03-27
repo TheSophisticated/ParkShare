@@ -59,16 +59,13 @@ async function fetchLocation(e){
 
         map.setView([lat, lon], 16);
 
-        // 2. If a marker already exists, remove it
         if (marker) map.removeLayer(marker);
 
-        // 3. Add a new marker at the spot
         marker = L.marker([lat, lon], { draggable: true }).addTo(map);
 
         document.getElementById('lat-input').value = lat;
         document.getElementById('lon-input').value = lon;
 
-        // 4. Update coordinates if the user drags the pin
         marker.on('dragend', function(event) {
             const position = marker.getLatLng();
             console.log("User refined location to:", position.lat, position.lng);
@@ -93,7 +90,6 @@ async function addParkingSpace(e){
     const pointLoc = `POINT(${lon} ${lat})`;
 
 
-    //Get Uploaded Image
     const fileInput = document.getElementById("img-file");
     const parkingImage = fileInput.files[0];
 
@@ -106,7 +102,6 @@ async function addParkingSpace(e){
         .from('ParkingImages')
         .upload(`public/${imgName}`, parkingImage)
 
-        //Fetch the URL of the image in Storage Bucket to reference in Table
         const {data: {publicUrl}} = supabase.storage
         .from('ParkingImages')
         .getPublicUrl(`public/${imgName}`);

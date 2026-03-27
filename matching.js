@@ -5,6 +5,8 @@ const supabase = createClient(
   'sb_publishable_SSZqqiwFwnPispVtOBqbpg_gr01dRlX'
 )
 
+import { avg } from './reviewsystem'
+
 async function init() {
     console.log("Matching system initialized...");
     
